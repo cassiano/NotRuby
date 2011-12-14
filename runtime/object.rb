@@ -14,8 +14,8 @@ class RObject
   def call(method, arguments = [])
     # Like a typical Class-based runtime model, we store methods in the class of the
     # object.
-    if (found_method = @runtime_class.lookup(method))
-      found_method.call self, arguments
+    if (called_method = @runtime_class.lookup(method))
+      called_method.call self, arguments
     else
       self.call 'method_missing', [method] + arguments
     end
