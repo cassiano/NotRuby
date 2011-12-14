@@ -1,0 +1,63 @@
+#!/usr/bin/env ruby -s
+# NotRuby interpreter
+$:.unshift File.expand_path("..", __FILE__)
+
+require 'interpreter'
+require 'readline'
+require 'pp'
+require 'readline_history'
+
+if $h # -h option
+  abort <<USAGE
+Usage:
+
+  ./notruby # start REPL
+  ./notruby file.rb
+  ./notruby -e='code'
+
+USAGE
+end
+
+# Eval some code
+# $e = # -e option
+if $e
+  Interpreter.new.eval($e)
+elsif ARGV.first
+  Interpreter.new.eval(File.read(ARGV.first))
+# Start the REPL, read-eval-print-loop, or interactive interpreter
+else
+  ReadlineHistory::load_history
+
+  puts "NotRuby REPL, CTRL+C or 'quit' to quit"
+  
+  interpreter = Interpreter.new
+
+  loop do
+    line = Readline.readline(">> ")
+
+    next if line.empty?
+    
+    Readline::HISTORY.push(line) unless Readline::HISTORY.to_a[-1] == line
+
+    case line
+      when 'quit'
+        break
+      when 'show'
+        puts '=====  Constants ===== '
+        pp Context.constants.map { |k, v| k }
+        puts "\n===== Locals ====="
+        pp Runtime.locals.map { |k, v| { k => v.ruby_value } }
+        puts "\n===== Current self ====="
+        pp Runtime.current_self
+        puts "\n===== Current class ====="
+        pp Runtime.current_class
+      else
+        begin
+          result = (r = interpreter.eval(line)).respond_to?(:ruby_value) ? r.ruby_value : r
+          puts "=> #{result.inspect}"
+        rescue => error
+          puts error
+        end
+    end
+  end
+end
