@@ -5,25 +5,33 @@ class RClass < RObject
   attr_accessor :parent, :associated_module
 
   # Creates a new class. Number is an instance of Class for example.
-  def initialize(name, parent = defined?(Runtime) && Runtime['Object'] || nil, is_ghost = false, is_module = false)
+  def initialize(name, options = {})
+    runtime = defined?(Runtime) ? Runtime : {}
+    
+    options = {
+      :parent     => runtime['Object'], 
+      :is_ghost   => false, 
+      :is_module  => false
+    }.update(options)
+    
     @name             = name
     @runtime_methods  = {}
-    @parent           = parent
-    @is_ghost         = is_ghost
-    @is_module        = is_module
+    @parent           = options[:parent]
+    @is_ghost         = options[:is_ghost]
+    @is_module        = options[:is_module]
   
     # Check if we're bootstrapping (launching the runtime). During this process the 
     # runtime is not fully initialized and core classes do not yet exists, so we defer 
     # using those once the language is bootstrapped.
     # This solves the chicken-or-the-egg problem with the Class class. We can 
     # initialize Class then set Class.class = Class.
-    runtime_class = defined?(Runtime) && Runtime["Class"] || nil
+    runtime_class = runtime['Class']
   
     super runtime_class
     
     # Create the ghost class (if not already a ghost), deriving it from the ghost class of the current class's parent.
     # This will allow for the inheritance of the so called "class" methods.
-    singleton_class(parent.singleton_class) if !is_ghost && runtime_class
+    singleton_class(options[:parent].singleton_class) if !options[:is_ghost] && runtime_class
   end
 
   # Lookup a method
@@ -54,9 +62,14 @@ class RClass < RObject
   
   def include_modules(modules)
     modules.each do |mOdule|    # Given 'module' is a reserved word in Ruby, we will use 'mOdule' instead.
-      ghost_parent                    = RClass.new("<Anonymous parent class for class '#{name}' and module '#{mOdule.name}'>", parent, true)
+      class_name                      = "<Anonymous parent class for class '#{to_s}' and module '#{mOdule.to_s}'>"
+      ghost_parent                    = RClass.new(class_name, :parent => parent, :is_ghost => true)
       ghost_parent.associated_module  = mOdule
       self.parent                     = ghost_parent
     end
+  end
+
+  def to_s
+    name
   end
 end

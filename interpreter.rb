@@ -109,7 +109,7 @@ class ClassNode
   def eval(context)
     unless (rclass = context[name]) # class was not defined
       evaluated_parent  = parent && parent.eval(context)
-      rclass            = RClass.new(name, *[evaluated_parent].compact)
+      rclass            = RClass.new(name, evaluated_parent ? { :parent => evaluated_parent } : {})
       context[name]     = rclass
     end
     
@@ -124,7 +124,7 @@ end
 class ModuleNode
   def eval(context)
     unless (rmodule = context[name]) # module was not defined
-      rmodule       = RClass.new(name, Runtime['Object'], false, true)
+      rmodule       = RClass.new(name, :is_module => true)
       context[name] = rmodule
     end
     

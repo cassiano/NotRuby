@@ -23,16 +23,22 @@ class RObject
   
   # Returns the object's singleton class, creating it if needed.
   def singleton_class(parent = runtime_class)
-    self.runtime_class = RClass.new("<Anonymous singleton class for object '#{respond_to?(:name) ? name : object_id}'>", parent, true) unless runtime_class.is_ghost
+    class_name          = "<Anonymous singleton class for object '#{to_s}'>"
+    self.runtime_class  = RClass.new(class_name, :parent => parent, :is_ghost => true) unless runtime_class.is_ghost
     
     runtime_class    
   end
 
   def extend_modules(modules)
     modules.each do |mOdule|    # Given 'module' is a reserved word in Ruby, we will use 'mOdule' instead.
-      ghost_singleton                   = RClass.new("<Anonymous class for object '#{respond_to?(:name) ? name : object_id}' and module '#{mOdule.name}'>", singleton_class.parent, true)
+      class_name                        = "<Anonymous class for object '#{to_s}' and module '#{mOdule.name}'>"
+      ghost_singleton                   = RClass.new(class_name, :parent => singleton_class.parent, :is_ghost => true)
       ghost_singleton.associated_module = mOdule
       singleton_class.parent            = ghost_singleton
     end
+  end
+  
+  def to_s
+    object_id
   end
 end

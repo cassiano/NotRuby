@@ -52,10 +52,6 @@ Runtime["Class"].runtime_methods["superclass"] = proc do |receiver, arguments|
 end
 
 Runtime["Class"].runtime_methods["ancestors"] = proc do |receiver, arguments|
-  Runtime["Class"].runtime_methods["ancestor_classes"].call(receiver).map(&:name)
-end
-
-Runtime["Class"].runtime_methods["ancestor_classes"] = proc do |receiver, arguments|
   current   = receiver
   ancestors = [receiver]
   
@@ -68,13 +64,13 @@ Runtime["Class"].runtime_methods["ancestor_classes"] = proc do |receiver, argume
 end
 
 Runtime["Class"].runtime_methods["instance_methods"] = proc do |receiver, arguments|
-  Runtime["Class"].runtime_methods["ancestor_classes"].call(receiver).map { |ancestor|
+  Runtime["Class"].runtime_methods["ancestors"].call(receiver).map { |ancestor|
     ancestor.runtime_methods.map { |k, v| k }
   }.flatten
 end
 
 Runtime["Object"].runtime_methods["methods"] = proc do |receiver, arguments|
-  Runtime["Class"].runtime_methods["ancestor_classes"].call(receiver.runtime_class).map { |ancestor|
+  Runtime["Class"].runtime_methods["ancestors"].call(receiver.runtime_class).map { |ancestor|
     ancestor.runtime_methods.map { |k, v| k }
   }.flatten
 end
