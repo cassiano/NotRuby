@@ -1,6 +1,6 @@
-# Code based on http://stackoverflow.com/questions/2065923/irb-history-not-working
+# Code copied (and slightly modified) from http://stackoverflow.com/questions/2065923/irb-history-not-working
 module ReadlineHistory
-  HISTORY_FILE      = "~/.notruby_history"
+  HISTORY_FILE      = '~/.notruby_history'
   MAX_HISTORY_SIZE  = 100
 
   def self.load_history

@@ -1,5 +1,5 @@
-require "parser"
-require "runtime"
+require 'parser'
+require 'runtime'
 
 class Interpreter
   def initialize
@@ -12,9 +12,9 @@ class Interpreter
 end
 
 class Nodes
-  # This method is the "interpreter" part of our language. All nodes know how to eval 
-  # itself and returns the result of its evaluation by implementing the "eval" method.
-  # The "context" variable is the environment in which the node is evaluated (local
+  # This method is the 'interpreter' part of our language. All nodes know how to eval 
+  # itself and returns the result of its evaluation by implementing the 'eval' method.
+  # The 'context' variable is the environment in which the node is evaluated (local
   # variables, current class, etc.).
   def eval(context)
     return_value = nil
@@ -23,37 +23,37 @@ class Nodes
       return_value = node.eval(context)
     end
 
-    return_value || Runtime["nil"]
+    return_value || Runtime['nil']
   end
 end
 
 class NumberNode
   def eval(context)
-    Runtime["Number"].new_with_value(value)
+    Runtime['Number'].new_with_value(value)
   end
 end
 
 class StringNode
   def eval(context)
-    Runtime["String"].new_with_value(value)
+    Runtime['String'].new_with_value(value)
   end
 end
 
 class TrueNode
   def eval(context)
-    Runtime["true"]
+    Runtime['true']
   end
 end
 
 class FalseNode
   def eval(context)
-    Runtime["false"]
+    Runtime['false']
   end
 end
 
 class NilNode
   def eval(context)
-    Runtime["nil"]
+    Runtime['nil']
   end
 end
 
@@ -148,7 +148,7 @@ class IfNode
     elsif else_body
       else_body.eval(context)
     else
-      Runtime["nil"]
+      Runtime['nil']
     end
   end
 end
@@ -158,6 +158,6 @@ class WhileNode
     while condition.eval(context).ruby_value
       body.eval(context)
     end
-    Runtime["nil"]
+    Runtime['nil']
   end
 end
