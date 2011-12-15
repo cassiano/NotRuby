@@ -46,7 +46,9 @@ Runtime["Object"].runtime_methods["extend"] = proc do |receiver, arguments|
 end
 
 Runtime["Class"].runtime_methods["superclass"] = proc do |receiver, arguments|
-  receiver.parent
+  cls = receiver.parent
+  cls = cls.parent while cls.is_ghost
+  cls
 end
 
 Runtime["Class"].runtime_methods["ancestors"] = proc do |receiver, arguments|
@@ -78,7 +80,9 @@ Runtime["Object"].runtime_methods["methods"] = proc do |receiver, arguments|
 end
 
 Runtime["Object"].runtime_methods["klass"] = proc do |receiver, arguments|
-  receiver.runtime_class
+  cls = receiver.runtime_class
+  cls = cls.runtime_class while cls.is_ghost
+  cls
 end
 
 Runtime["Object"].runtime_methods["singleton_class"] = proc do |receiver, arguments|
@@ -86,7 +90,7 @@ Runtime["Object"].runtime_methods["singleton_class"] = proc do |receiver, argume
 end
 
 Runtime["Object"].runtime_methods["method_missing"] = proc do |receiver, arguments|
-  puts "NoMethodError: undefined method '#{arguments[0]}' for #{receiver.respond_to?(:name) ? receiver.name : receiver.ruby_value}:#{receiver.runtime_class.name}"
+  puts "NoMethodError: undefined method '#{arguments[0]}' for #{receiver.respond_to?(:name) ? receiver.name : (receiver.ruby_value || 'nil')}:#{Runtime["Object"].runtime_methods["klass"].call(receiver).name}"
 end
 
 # Runtime["Number"].runtime_methods["method_missing"] = proc do |receiver, arguments|

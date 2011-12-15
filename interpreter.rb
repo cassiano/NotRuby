@@ -18,9 +18,11 @@ class Nodes
   # variables, current class, etc.).
   def eval(context)
     return_value = nil
+
     nodes.each do |node|
       return_value = node.eval(context)
     end
+
     return_value || Runtime["nil"]
   end
 end
@@ -122,7 +124,7 @@ end
 class ModuleNode
   def eval(context)
     unless (rmodule = context[name]) # module was not defined
-      rmodule       = RClass.new(name, nil, false, true)
+      rmodule       = RClass.new(name, Runtime['Object'], false, true)
       context[name] = rmodule
     end
     

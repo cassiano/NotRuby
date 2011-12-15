@@ -21,7 +21,8 @@ class RClass < RObject
   
     super runtime_class
     
-    # Create the is_ghost class (if not already a is_ghost), deriving it from the is_ghost class of the current class's parent.
+    # Create the ghost class (if not already a ghost), deriving it from the ghost class of the current class's parent.
+    # This will allow for the inheritance of the so called "class" methods.
     singleton_class(parent.singleton_class) if !is_ghost && runtime_class
   end
 
@@ -32,7 +33,7 @@ class RClass < RObject
 
   # Create a new instance of this class
   def new
-    raise('Cannot create instances of modules') if @is_module
+    raise('Sorry, modules cannot be instantiated!') if @is_module
     
     RObject.new self
   end
