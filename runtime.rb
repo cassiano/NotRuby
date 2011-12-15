@@ -88,6 +88,7 @@ Runtime['Object'].runtime_methods = {
                         receiver.singleton_class
                       end,
 
+  # Default :method_missing implementation.
   :method_missing =>  proc do |receiver, arguments|
                         raise "NoMethodError: undefined method '#{arguments[0]}' for #{receiver.respond_to?(:name) ? receiver.name : (receiver.ruby_value || 'nil')}:#{Runtime['Object'].runtime_methods[:klass].call(receiver).name}"
                       end,
