@@ -101,7 +101,7 @@ class DefNode
       (receiver = String === object ? context.locals[object] : object.eval(context)) && receiver.singleton_class :
       context.current_class
     
-    klass.runtime_methods[name] = method
+    klass.runtime_methods[name.to_sym] = method
   end
 end
 
@@ -109,7 +109,7 @@ class ClassNode
   def eval(context)
     unless (rclass = context[name]) # class was not defined
       evaluated_parent  = parent && parent.eval(context)
-      rclass            = RClass.new(name, evaluated_parent ? { :parent => evaluated_parent } : {})
+      rclass            = evaluated_parent ? RClass.new(name, :parent => evaluated_parent) : RClass.new(name)
       context[name]     = rclass
     end
     

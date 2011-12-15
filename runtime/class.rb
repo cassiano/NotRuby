@@ -59,6 +59,10 @@ class RClass < RObject
   def runtime_methods
     is_ghost && has_associated_module? ? associated_module.runtime_methods : @runtime_methods
   end
+
+  def runtime_methods=(new_runtime_methods)
+    @runtime_methods = new_runtime_methods
+  end
   
   def include_modules(modules)
     modules.each do |mOdule|    # Given 'module' is a reserved word in Ruby, we will use 'mOdule' instead.

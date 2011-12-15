@@ -29,87 +29,93 @@ Runtime['false']  = Runtime['FalseClass'].new_with_value(false)
 Runtime['nil']    = Runtime['NilClass'].new_with_value(nil)
 
 # Object.new
-Runtime['Class'].runtime_methods['new'] = proc do |receiver, arguments|
-  receiver.new
-end
+Runtime['Class'].runtime_methods = {
+  :new => proc do |receiver, arguments|
+            receiver.new
+          end,
+          
+  :name =>  proc do |receiver, arguments|
+              receiver.name
+            end,
 
-Runtime['Class'].runtime_methods['name'] = proc do |receiver, arguments|
-  receiver.name
-end
+  :include => proc do |receiver, arguments|
+                receiver.include_modules arguments
+              end,
 
-Runtime['Class'].runtime_methods['include'] = proc do |receiver, arguments|
-  receiver.include_modules arguments
-end
+  :superclass => proc do |receiver, arguments|
+                  cls = receiver.parent
+                  cls = cls.parent while cls.is_ghost
+                  cls
+                end,
 
-Runtime['Object'].runtime_methods['extend'] = proc do |receiver, arguments|
-  receiver.extend_modules arguments
-end
-
-Runtime['Class'].runtime_methods['superclass'] = proc do |receiver, arguments|
-  cls = receiver.parent
-  cls = cls.parent while cls.is_ghost
-  cls
-end
-
-Runtime['Class'].runtime_methods['ancestors'] = proc do |receiver, arguments|
-  current   = receiver
-  ancestors = [receiver]
+  :ancestors => proc do |receiver, arguments|
+                  current   = receiver
+                  ancestors = [receiver]
   
-  while (current = current.parent)
-    break if ancestors.include?(current)    # Avoid an endless loop.
-    ancestors << current
-  end
+                  while (current = current.parent)
+                    break if ancestors.include?(current)    # Avoid an endless loop.
+                    ancestors << current
+                  end
   
-  ancestors
-end
+                  ancestors
+                end,
 
-Runtime['Class'].runtime_methods['instance_methods'] = proc do |receiver, arguments|
-  Runtime['Class'].runtime_methods['ancestors'].call(receiver).map { |ancestor|
-    ancestor.runtime_methods.map { |k, v| k }
-  }.flatten
-end
+  :instance_methods =>  proc do |receiver, arguments|
+                          Runtime['Class'].runtime_methods[:ancestors].call(receiver).map { |ancestor|
+                            ancestor.runtime_methods.map { |k, v| k }
+                          }.flatten
+                        end
+}
 
-Runtime['Object'].runtime_methods['methods'] = proc do |receiver, arguments|
-  Runtime['Class'].runtime_methods['ancestors'].call(receiver.runtime_class).map { |ancestor|
-    ancestor.runtime_methods.map { |k, v| k }
-  }.flatten
-end
+Runtime['Object'].runtime_methods = {
+  :extend =>  proc do |receiver, arguments|
+                receiver.extend_modules arguments
+              end,
 
-Runtime['Object'].runtime_methods['klass'] = proc do |receiver, arguments|
-  cls = receiver.runtime_class
-  cls = cls.runtime_class while cls.is_ghost
-  cls
-end
+  :methods => proc do |receiver, arguments|
+                Runtime['Class'].runtime_methods[:ancestors].call(receiver.runtime_class).map { |ancestor|
+                  ancestor.runtime_methods.map { |k, v| k }
+                }.flatten
+              end,
 
-Runtime['Object'].runtime_methods['singleton_class'] = proc do |receiver, arguments|
-  receiver.singleton_class
-end
+  :klass => proc do |receiver, arguments|
+              cls = receiver.runtime_class
+              cls = cls.runtime_class while cls.is_ghost
+              cls
+            end,
 
-Runtime['Object'].runtime_methods['method_missing'] = proc do |receiver, arguments|
-  puts "NoMethodError: undefined method '#{arguments[0]}' for #{receiver.respond_to?(:name) ? receiver.name : (receiver.ruby_value || 'nil')}:#{Runtime['Object'].runtime_methods['klass'].call(receiver).name}"
-end
+  :singleton_class => proc do |receiver, arguments|
+                        receiver.singleton_class
+                      end,
 
-# Runtime['Number'].runtime_methods['method_missing'] = proc do |receiver, arguments|
-#   puts "method_missing called with parameters: #{arguments.map { |a| a.respond_to?(:ruby_value) ? a.ruby_value : a }.join(', ')}"
-# end
+  :method_missing =>  proc do |receiver, arguments|
+                        raise "NoMethodError: undefined method '#{arguments[0]}' for #{receiver.respond_to?(:name) ? receiver.name : (receiver.ruby_value || 'nil')}:#{Runtime['Object'].runtime_methods[:klass].call(receiver).name}"
+                      end,
 
-# print('hi')
-Runtime['Object'].runtime_methods['print'] = proc do |receiver, arguments|
-  puts arguments.first.ruby_value
-  Runtime['nil']
-end
+  # print('hi')
+  :print => proc do |receiver, arguments|
+              puts arguments.first.ruby_value
+              Runtime['nil']
+            end
+}
 
 # 1 + 2
-Runtime['Number'].runtime_methods['+'] = proc do |receiver, arguments|
-  a = receiver.ruby_value
-  b = arguments.first.ruby_value
-  Runtime['Number'].new_with_value a + b
-end
+Runtime['Number'].runtime_methods = {
+  :+ => proc do |receiver, arguments|
+          a = receiver.ruby_value
+          b = arguments.first.ruby_value
+          Runtime['Number'].new_with_value a + b
+        end,
 
-# 1 < 2
-# 1.<(2)
-Runtime['Number'].runtime_methods['<'] = proc do |receiver, arguments|
-  a = receiver.ruby_value
-  b = arguments.first.ruby_value
-  a < b ? Runtime['true'] : Runtime['false']
-end
+  # 1 < 2
+  # 1.<(2)
+  :< => proc do |receiver, arguments|
+          a = receiver.ruby_value
+          b = arguments.first.ruby_value
+          a < b ? Runtime['true'] : Runtime['false']
+        end,
+        
+  :method_missing =>  proc do |receiver, arguments|
+                        puts "Overriden method_missing for class Number called with parameters: #{arguments.map { |a| a.respond_to?(:ruby_value) ? a.ruby_value : a }.join(', ')}"
+                      end
+}

@@ -103,8 +103,8 @@ rule
   ;
   
   ArgListWithParens:
-    '(' ')'                             { result = [] }
-  | '(' ArgList ')'                     { result = val[1] }
+    '(' ')'                       { result = [] }
+  | '(' ArgList ')'               { result = val[1] }
   ;
   
   ArgList:
