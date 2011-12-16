@@ -49,11 +49,13 @@ Runtime['Class'].runtime_methods = {
                 end,
 
   :ancestors => proc do |receiver, arguments|
-                  current   = receiver
-                  ancestors = [receiver]
+                  current         = receiver
+                  ancestors       = [receiver]
+                  include_ghosts  = !!arguments[0]
   
                   while (current = current.parent)
                     break if ancestors.include?(current)    # Avoid an endless loop.
+                    next if current.is_ghost && !include_ghosts
                     ancestors << current
                   end
   
@@ -61,9 +63,10 @@ Runtime['Class'].runtime_methods = {
                 end,
 
   :instance_methods =>  proc do |receiver, arguments|
-                          Runtime['Class'].runtime_methods[:ancestors].call(receiver).map { |ancestor|
-                            ancestor.runtime_methods.map { |k, v| k }
-                          }.flatten
+                          include_ancestors = !arguments[0].nil? ? arguments[0].ruby_value : true
+                          instance_methods = receiver.runtime_methods.map { |k, v| k }
+                          instance_methods += receiver.parent.call(:instance_methods, arguments) if include_ancestors and receiver.parent != receiver
+                          instance_methods
                         end
 }
 
@@ -73,9 +76,7 @@ Runtime['Object'].runtime_methods = {
               end,
 
   :methods => proc do |receiver, arguments|
-                Runtime['Class'].runtime_methods[:ancestors].call(receiver.runtime_class).map { |ancestor|
-                  ancestor.runtime_methods.map { |k, v| k }
-                }.flatten
+                receiver.runtime_class.call(:instance_methods, arguments)
               end,
 
   :klass => proc do |receiver, arguments|
@@ -100,8 +101,9 @@ Runtime['Object'].runtime_methods = {
             end
 }
 
-# 1 + 2
 Runtime['Number'].runtime_methods = {
+  # 1 + 2
+  # 1.+(2)
   :+ => proc do |receiver, arguments|
           a = receiver.ruby_value
           b = arguments.first.ruby_value
@@ -116,6 +118,7 @@ Runtime['Number'].runtime_methods = {
           a < b ? Runtime['true'] : Runtime['false']
         end,
         
+  # Overriden :method_missing sample implementation.
   :method_missing =>  proc do |receiver, arguments|
                         puts "Overriden method_missing for class Number called with parameters: #{arguments.map { |a| a.respond_to?(:ruby_value) ? a.ruby_value : a }.join(', ')}"
                       end
