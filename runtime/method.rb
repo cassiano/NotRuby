@@ -2,7 +2,7 @@
 class RMethod
   def initialize(params, body)
     @params = params
-    @body = body
+    @body   = body
   end
   
   def call(receiver, arguments)

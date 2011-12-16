@@ -33,7 +33,7 @@ end
 #   receiver.method
 #   receiver.method(argument1, argument2)
 #
-class CallNode < Struct.new(:receiver, :method, :arguments); end
+class CallNode < Struct.new(:receiver, :method_name, :arguments); end
 
 # Setting the value of a local variable.
 class AssignNode < Struct.new(:name, :value); end

@@ -65,29 +65,24 @@ end
 
 class ConstantNode
   def eval(context)
-    context[name] || raise("Constant not found #{name}")
+    context[name] || raise("NameError: uninitialized constant #{name}")
   end
 end
 
 class CallNode
   def eval(context)
     # a
-    if receiver.nil? && context.locals[method] && arguments.empty?
+    if receiver.nil? && context.locals[method_name] && arguments.empty?
       # Local variable
-      context.locals[method]
+      context.locals[method_name]
     # Method call
     else
-      # object.print
-      if receiver
-        value = receiver.eval(context)
-      else
-        # [self.]print
-        value = context.current_self
-      end
+      # object.print or [self.]print ?
+      object = receiver ? receiver.eval(context) : context.current_self
       
       evaluated_arguments = arguments.map { |arg| arg.eval(context) }
 
-      value.call method, evaluated_arguments
+      object.call method_name, evaluated_arguments
     end
   end
 end
@@ -102,6 +97,8 @@ class DefNode
       context.current_class
     
     klass.runtime_methods[name.to_sym] = method
+    
+    Runtime['nil']
   end
 end
 
@@ -109,15 +106,13 @@ class ClassNode
   def eval(context)
     unless (rclass = context[name]) # class was not defined
       evaluated_parent  = parent && parent.eval(context)
-      rclass            = evaluated_parent ? RClass.new(name, :parent => evaluated_parent) : RClass.new(name)
+      rclass            = evaluated_parent ? 
+                            RClass.new(name, :parent => evaluated_parent) : 
+                            RClass.new(name)
       context[name]     = rclass
     end
     
-    class_context = Context.new(rclass, rclass)
-    
-    body.eval(class_context)
-    
-    rclass
+    body.eval Context.new(rclass, rclass)
   end
 end
 
@@ -158,6 +153,7 @@ class WhileNode
     while condition.eval(context).ruby_value
       body.eval(context)
     end
+    
     Runtime['nil']
   end
 end
