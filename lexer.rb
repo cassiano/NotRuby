@@ -68,13 +68,13 @@ class Lexer < Racc::Parser
       when (text = @ss.scan(/\d+/))
          action { [:NUMBER, text.to_i] }
 
-      when (text = @ss.scan(/(["'])[^\1]*\1/))
+      when (text = @ss.scan(/(["']).*?\1/))
          action { [:STRING, text[1..-2]] }
 
       when (text = @ss.scan(/\n+/))
          action { [:NEWLINE, text] }
 
-      when (text = @ss.scan(/\b(end|def|class|if|while|else|true|false|nil|module)\b/))
+      when (text = @ss.scan(/\b(end|def|class|if|while|else|true|false|nil|module|self)\b/))
          action { [text.upcase.to_sym, text] }
 
       when (text = @ss.scan(/[a-z]\w*/))

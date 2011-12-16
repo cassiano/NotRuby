@@ -3,18 +3,7 @@
 class Parser
 
 # Declare tokens produced by the lexer
-token IF ELSE
-token WHILE
-token DEF
-token CLASS
-token NEWLINE
-token NUMBER
-token STRING
-token TRUE FALSE NIL
-token IDENTIFIER
-token CONSTANT
-token END
-token MODULE
+token IF ELSE WHILE DEF CLASS NEWLINE NUMBER STRING TRUE FALSE NIL IDENTIFIER CONSTANT END MODULE SELF
 
 # Precedence table
 # Based on http://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B#Operator_precedence
@@ -67,7 +56,8 @@ rule
 
   # All types of expression in our language
   Expression:
-    Literal
+    Self
+  | Literal
   | Call
   | Operator
   | Constant
@@ -79,6 +69,9 @@ rule
   | While
   | '(' Expression ')'    { result = val[1] }
   ;
+  
+  Self:
+    SELF                          { result = SelfNode.new }
   
   # All hard-coded values
   Literal:
@@ -154,7 +147,8 @@ rule
   ;
 
   SingletonObject:
-    IDENTIFIER                    { result = val[0] }
+    Self
+  | IDENTIFIER                    { result = val[0] }
   | Constant
   | "(" Expression ")"            { result = val[1] }
   ;

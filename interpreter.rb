@@ -157,3 +157,9 @@ class WhileNode
     Runtime['nil']
   end
 end
+
+class SelfNode
+  def eval(context)
+    context.current_self
+  end
+end

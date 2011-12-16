@@ -30,7 +30,10 @@ class ParserTest < Test::Unit::TestCase
     CODE
     
     nodes = Nodes.new([
-      DefNode.new("method", [],
+      DefNode.new(
+        nil,
+        "method", 
+        [],
         Nodes.new([])
       )
     ])
@@ -46,7 +49,10 @@ class ParserTest < Test::Unit::TestCase
     CODE
     
     nodes = Nodes.new([
-      DefNode.new("method", ["a", "b"],
+      DefNode.new(
+        nil, 
+        "method", 
+        ["a", "b"],
         Nodes.new([])
       )
     ])
@@ -63,6 +69,7 @@ class ParserTest < Test::Unit::TestCase
     
     nodes = Nodes.new([
       ClassNode.new("Muffin",
+        nil,
         Nodes.new([])
       )
     ])

@@ -4,7 +4,7 @@ class Lexer
 
 macro
   BLANK             [\ \t]+
-  KEYWORDS          \b(end|def|class|if|while|else|true|false|nil|module)\b
+  KEYWORDS          \b(end|def|class|if|while|else|true|false|nil|module|self)\b
   LONGER_OPERATORS  \|\||&&|==|!=|>=|<=
 
 rule
@@ -14,7 +14,7 @@ rule
   
   # Literals
   \d+                                   { [:NUMBER, text.to_i] }
-  (["'])[^\1]*\1                        { [:STRING, text[1..-2]] }
+  (["']).*?\1                           { [:STRING, text[1..-2]] }
   \n+                                   { [:NEWLINE, text] }
   
   # Keywords
