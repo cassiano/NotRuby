@@ -4,7 +4,7 @@ class Lexer
 
 macro
   BLANK             [\ \t]+
-  KEYWORDS          \b(end|def|class|if|while|else|true|false|nil|module|self)\b
+  KEYWORDS          \b(end|def|class|if|while|else|true|false|nil|module|self|super)\b
   LONGER_OPERATORS  \|\||&&|==|!=|>=|<=
 
 rule

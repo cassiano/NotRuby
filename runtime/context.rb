@@ -5,7 +5,8 @@
 #   eg.: print is like current_self.print
 # - "current_class" is the class on which methods are defined with the "def" keyword.
 class Context
-  attr_reader :locals, :current_self, :current_class
+  attr_reader   :locals, :current_self, :current_class
+  attr_accessor :current_method_and_arguments
   
   def self.constants
     @@constants
@@ -25,9 +26,9 @@ class Context
   
   # Shortcuts to access constants via Runtime["ConstantName"]
   def [](name)
-    @@constants[name]
+    @@constants[name.to_sym]
   end
   def []=(name, value)
-    @@constants[name] = value
+    @@constants[name.to_sym] = value
   end
 end

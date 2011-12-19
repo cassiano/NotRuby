@@ -16,20 +16,19 @@ rclass.parent               = object_class          # Class.superclass = Object
 
 Runtime = Context.new(object_class.new) # Object.new
 
-Runtime['Class']      = rclass
-Runtime['Object']     = object_class
-Runtime['Number']     = RClass.new('Number')
-Runtime['String']     = RClass.new('String')
-Runtime['TrueClass']  = RClass.new('TrueClass')
-Runtime['FalseClass'] = RClass.new('FalseClass')
-Runtime['NilClass']   = RClass.new('NilClass')
+Runtime[:Class]       = rclass
+Runtime[:Object]      = object_class
+Runtime[:Number]      = RClass.new('Number')
+Runtime[:String]      = RClass.new('String')
+Runtime[:TrueClass]   = RClass.new('TrueClass')
+Runtime[:FalseClass]  = RClass.new('FalseClass')
+Runtime[:NilClass]    = RClass.new('NilClass')
 
-Runtime['true']   = Runtime['TrueClass'].new_with_value(true)
-Runtime['false']  = Runtime['FalseClass'].new_with_value(false)
-Runtime['nil']    = Runtime['NilClass'].new_with_value(nil)
+Runtime[:true]  = Runtime[:TrueClass].new_with_value(true)
+Runtime[:false] = Runtime[:FalseClass].new_with_value(false)
+Runtime[:nil]   = Runtime[:NilClass].new_with_value(nil)
 
-# Object.new
-Runtime['Class'].runtime_methods = {
+Runtime[:Class].runtime_methods.update(
   :new => proc do |receiver, arguments|
             receiver.new
           end,
@@ -37,7 +36,7 @@ Runtime['Class'].runtime_methods = {
   :name =>  proc do |receiver, arguments|
               receiver.name
             end,
-
+  
   :include => proc do |receiver, arguments|
                 receiver.include_modules arguments
               end,
@@ -68,9 +67,9 @@ Runtime['Class'].runtime_methods = {
                           instance_methods += receiver.parent.call(:instance_methods, arguments) if include_ancestors and receiver.parent != receiver
                           instance_methods
                         end
-}
+)
 
-Runtime['Object'].runtime_methods = {
+Runtime[:Object].runtime_methods.update(
   :extend =>  proc do |receiver, arguments|
                 receiver.extend_modules arguments
               end,
@@ -80,9 +79,9 @@ Runtime['Object'].runtime_methods = {
               end,
 
   :klass => proc do |receiver, arguments|
-              cls = receiver.runtime_class
-              cls = cls.runtime_class while cls.is_ghost
-              cls
+              klass = receiver.runtime_class
+              klass = klass.runtime_class while klass.is_ghost
+              klass
             end,
 
   :singleton_class => proc do |receiver, arguments|
@@ -91,23 +90,23 @@ Runtime['Object'].runtime_methods = {
 
   # Default :method_missing implementation.
   :method_missing =>  proc do |receiver, arguments|
-                        raise "NoMethodError: undefined method '#{arguments[0]}' for #{receiver.respond_to?(:name) ? receiver.name : (receiver.ruby_value || 'nil')}:#{Runtime['Object'].runtime_methods[:klass].call(receiver).name}"
+                        receiver.internal_method_missing arguments[0], arguments[1..-1]
                       end,
 
   # print('hi')
   :print => proc do |receiver, arguments|
               puts arguments.first.ruby_value
-              Runtime['nil']
+              Runtime[:nil] 
             end
-}
+)
 
-Runtime['Number'].runtime_methods = {
+Runtime[:Number].runtime_methods.update(
   # 1 + 2
   # 1.+(2)
   :+ => proc do |receiver, arguments|
           a = receiver.ruby_value
           b = arguments.first.ruby_value
-          Runtime['Number'].new_with_value a + b
+          Runtime[:Number].new_with_value a + b
         end,
 
   # 1 < 2
@@ -115,11 +114,11 @@ Runtime['Number'].runtime_methods = {
   :< => proc do |receiver, arguments|
           a = receiver.ruby_value
           b = arguments.first.ruby_value
-          a < b ? Runtime['true'] : Runtime['false']
+          Runtime[(a < b).to_s.to_sym]
         end,
         
   # Overriden :method_missing sample implementation.
   :method_missing =>  proc do |receiver, arguments|
-                        puts "Overriden method_missing for class Number called with parameters: #{arguments.map { |a| a.respond_to?(:ruby_value) ? a.ruby_value : a }.join(', ')}"
+                        raise "Overriden method_missing for #{receiver.to_s}:#{receiver.call(:klass).name} called with parameters: [#{arguments.map(&:to_s).join(', ')}]"
                       end
-}
+)

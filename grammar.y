@@ -3,7 +3,7 @@
 class Parser
 
 # Declare tokens produced by the lexer
-token IF ELSE WHILE DEF CLASS NEWLINE NUMBER STRING TRUE FALSE NIL IDENTIFIER CONSTANT END MODULE SELF
+token IF ELSE WHILE DEF CLASS NEWLINE NUMBER STRING TRUE FALSE NIL IDENTIFIER CONSTANT END MODULE SELF SUPER
 
 # Precedence table
 # Based on http://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B#Operator_precedence
@@ -57,6 +57,7 @@ rule
   # All types of expression in our language
   Expression:
     Self
+  | Super
   | Literal
   | Call
   | Operator
@@ -72,6 +73,9 @@ rule
   
   Self:
     SELF                          { result = SelfNode.new }
+
+  Super:
+    SUPER                         { result = SuperNode.new }
   
   # All hard-coded values
   Literal:

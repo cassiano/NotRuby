@@ -36,7 +36,7 @@ class RClass < RObject
 
   # Lookup a method
   def lookup(method_name)
-    runtime_methods[method_name] || (parent && parent != self ? parent.lookup(method_name) : nil)
+    runtime_methods[method_name.to_sym] || (parent && parent != self ? parent.lookup(method_name) : nil)
   end
 
   # Create a new instance of this class
@@ -60,10 +60,6 @@ class RClass < RObject
     is_ghost && has_associated_module? ? associated_module.runtime_methods : @runtime_methods
   end
 
-  def runtime_methods=(new_runtime_methods)
-    @runtime_methods = new_runtime_methods
-  end
-  
   def include_modules(modules)
     modules.each do |mOdule|    # Given 'module' is a reserved word in Ruby, we will use 'mOdule' instead.
       class_name                      = "<Anonymous parent class for class '#{to_s}' and module '#{mOdule.to_s}'>"

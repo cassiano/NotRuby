@@ -23,37 +23,37 @@ class Nodes
       return_value = node.eval(context)
     end
 
-    return_value || Runtime['nil']
+    return_value || Runtime[:nil] 
   end
 end
 
 class NumberNode
   def eval(context)
-    Runtime['Number'].new_with_value(value)
+    Runtime[:Number].new_with_value(value)
   end
 end
 
 class StringNode
   def eval(context)
-    Runtime['String'].new_with_value(value)
+    Runtime[:String].new_with_value(value)
   end
 end
 
 class TrueNode
   def eval(context)
-    Runtime['true']
+    Runtime[:true] 
   end
 end
 
 class FalseNode
   def eval(context)
-    Runtime['false']
+    Runtime[:false] 
   end
 end
 
 class NilNode
   def eval(context)
-    Runtime['nil']
+    Runtime[:nil] 
   end
 end
 
@@ -89,7 +89,7 @@ end
 
 class DefNode
   def eval(context)
-    method = RMethod.new(params, body)
+    method = RMethod.new(name.to_sym, params, body)
     
     # Is it a singleton method?
     klass = object ?
@@ -98,7 +98,7 @@ class DefNode
     
     klass.runtime_methods[name.to_sym] = method
     
-    Runtime['nil']
+    Runtime[:nil] 
   end
 end
 
@@ -123,27 +123,20 @@ class ModuleNode
       context[name] = rmodule
     end
     
-    module_context = Context.new(rmodule, rmodule)
+    body.eval Context.new(rmodule, rmodule)
     
-    body.eval(module_context)
-    
-    rmodule
+    Runtime[:nil] 
   end
 end
 
 class IfNode
   def eval(context)
-    ### Exercise
-    # Here you have access to:
-    #  condition: condition node that will determine if the body should be executed
-    #       body: node to be executed if the condition is true
-    #  else_body: node to be executed if the condition is false
     if condition.eval(context).ruby_value
-      body.eval(context)
+      body.eval context
     elsif else_body
-      else_body.eval(context)
+      else_body.eval context
     else
-      Runtime['nil']
+      Runtime[:nil] 
     end
   end
 end
@@ -151,15 +144,24 @@ end
 class WhileNode
   def eval(context)
     while condition.eval(context).ruby_value
-      body.eval(context)
+      body.eval context
     end
     
-    Runtime['nil']
+    Runtime[:nil] 
   end
 end
 
 class SelfNode
   def eval(context)
     context.current_self
+  end
+end
+
+class SuperNode
+  def eval(context)
+    raise('Invalid use of super (no method currently in execution)') unless context.current_method_and_arguments
+    raise('Infinite recursion detected (super would call itself)') if context.current_class == context.current_class.parent
+
+    context.current_self.call *context.current_method_and_arguments, context.current_class.parent
   end
 end

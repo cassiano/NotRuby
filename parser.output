@@ -11,191 +11,198 @@ rule 6 Expressions: Terminator
 rule 7 Terminator: NEWLINE
 rule 8 Terminator: ";"
 rule 9 Expression: Self
-rule 10 Expression: Literal
-rule 11 Expression: Call
-rule 12 Expression: Operator
-rule 13 Expression: Constant
-rule 14 Expression: Assign
-rule 15 Expression: Def
-rule 16 Expression: Class
-rule 17 Expression: Module
-rule 18 Expression: If
-rule 19 Expression: While
-rule 20 Expression: "(" Expression ")"
-rule 21 Self: SELF
-rule 22 Literal: NUMBER
-rule 23 Literal: STRING
-rule 24 Literal: TRUE
-rule 25 Literal: FALSE
-rule 26 Literal: NIL
-rule 27 Call: IDENTIFIER
-rule 28 Call: IDENTIFIER ArgListWithParens
-rule 29 Call: Expression "." IDENTIFIER
-rule 30 Call: Expression "." IDENTIFIER ArgListWithParens
-rule 31 ArgListWithParens: "(" ")"
-rule 32 ArgListWithParens: "(" ArgList ")"
-rule 33 ArgList: Expression
-rule 34 ArgList: ArgList "," Expression
-rule 35 Operator: Expression "||" Expression
-rule 36 Operator: Expression "&&" Expression
-rule 37 Operator: Expression "==" Expression
-rule 38 Operator: Expression "!=" Expression
-rule 39 Operator: Expression ">" Expression
-rule 40 Operator: Expression ">=" Expression
-rule 41 Operator: Expression "<" Expression
-rule 42 Operator: Expression "<=" Expression
-rule 43 Operator: Expression "+" Expression
-rule 44 Operator: Expression "-" Expression
-rule 45 Operator: Expression "*" Expression
-rule 46 Operator: Expression "/" Expression
-rule 47 Operator: "!" Expression
-rule 48 Assign: IDENTIFIER "=" Expression
-rule 49 Def: DEF IDENTIFIER Terminator Expressions END
-rule 50 Def: DEF IDENTIFIER "(" ParamList ")" Terminator Expressions END
-rule 51 Def: DEF SingletonObject "." IDENTIFIER "(" ParamList ")" Terminator Expressions END
-rule 52 Def: DEF SingletonObject "." IDENTIFIER Terminator Expressions END
-rule 53 SingletonObject: Self
-rule 54 SingletonObject: IDENTIFIER
-rule 55 SingletonObject: Constant
-rule 56 SingletonObject: "(" Expression ")"
-rule 57 ParamList: 
-rule 58 ParamList: IDENTIFIER
-rule 59 ParamList: ParamList "," IDENTIFIER
-rule 60 Class: CLASS CONSTANT Terminator Expressions END
-rule 61 Class: CLASS CONSTANT "<" Expression Terminator Expressions END
-rule 62 Module: MODULE CONSTANT Terminator Expressions END
-rule 63 Constant: CONSTANT
-rule 64 If: IF Expression Terminator Expressions END
-rule 65 If: IF Expression Terminator Expressions ELSE Terminator Expressions END
-rule 66 While: WHILE Expression Terminator Expressions END
+rule 10 Expression: Super
+rule 11 Expression: Literal
+rule 12 Expression: Call
+rule 13 Expression: Operator
+rule 14 Expression: Constant
+rule 15 Expression: Assign
+rule 16 Expression: Def
+rule 17 Expression: Class
+rule 18 Expression: Module
+rule 19 Expression: If
+rule 20 Expression: While
+rule 21 Expression: "(" Expression ")"
+rule 22 Self: SELF
+rule 23 Super: SUPER
+rule 24 Literal: NUMBER
+rule 25 Literal: STRING
+rule 26 Literal: TRUE
+rule 27 Literal: FALSE
+rule 28 Literal: NIL
+rule 29 Call: IDENTIFIER
+rule 30 Call: IDENTIFIER ArgListWithParens
+rule 31 Call: Expression "." IDENTIFIER
+rule 32 Call: Expression "." IDENTIFIER ArgListWithParens
+rule 33 ArgListWithParens: "(" ")"
+rule 34 ArgListWithParens: "(" ArgList ")"
+rule 35 ArgList: Expression
+rule 36 ArgList: ArgList "," Expression
+rule 37 Operator: Expression "||" Expression
+rule 38 Operator: Expression "&&" Expression
+rule 39 Operator: Expression "==" Expression
+rule 40 Operator: Expression "!=" Expression
+rule 41 Operator: Expression ">" Expression
+rule 42 Operator: Expression ">=" Expression
+rule 43 Operator: Expression "<" Expression
+rule 44 Operator: Expression "<=" Expression
+rule 45 Operator: Expression "+" Expression
+rule 46 Operator: Expression "-" Expression
+rule 47 Operator: Expression "*" Expression
+rule 48 Operator: Expression "/" Expression
+rule 49 Operator: "!" Expression
+rule 50 Assign: IDENTIFIER "=" Expression
+rule 51 Def: DEF IDENTIFIER Terminator Expressions END
+rule 52 Def: DEF IDENTIFIER "(" ParamList ")" Terminator Expressions END
+rule 53 Def: DEF SingletonObject "." IDENTIFIER "(" ParamList ")" Terminator Expressions END
+rule 54 Def: DEF SingletonObject "." IDENTIFIER Terminator Expressions END
+rule 55 SingletonObject: Self
+rule 56 SingletonObject: IDENTIFIER
+rule 57 SingletonObject: Constant
+rule 58 SingletonObject: "(" Expression ")"
+rule 59 ParamList: 
+rule 60 ParamList: IDENTIFIER
+rule 61 ParamList: ParamList "," IDENTIFIER
+rule 62 Class: CLASS CONSTANT Terminator Expressions END
+rule 63 Class: CLASS CONSTANT "<" Expression Terminator Expressions END
+rule 64 Module: MODULE CONSTANT Terminator Expressions END
+rule 65 Constant: CONSTANT
+rule 66 If: IF Expression Terminator Expressions END
+rule 67 If: IF Expression Terminator Expressions ELSE Terminator Expressions END
+rule 68 While: WHILE Expression Terminator Expressions END
 
 ------- Symbols -------
 
 **Nonterminals, with rules where they appear
 
-  $start (37)
+  $start (38)
     on right: 
     on left : 
-  Root (38)
+  Root (39)
     on right: 
     on left : 1 2
-  Expressions (39)
-    on right: 2 4 5 49 50 51 52 60 61 62 64 65 66
+  Expressions (40)
+    on right: 2 4 5 51 52 53 54 62 63 64 66 67 68
     on left : 3 4 5 6
-  Expression (40)
-    on right: 3 4 20 29 30 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 56 61 64 65 66
-    on left : 9 10 11 12 13 14 15 16 17 18 19 20
-  Terminator (41)
-    on right: 4 5 6 49 50 51 52 60 61 62 64 65 66
+  Expression (41)
+    on right: 3 4 21 31 32 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 58 63 66 67 68
+    on left : 9 10 11 12 13 14 15 16 17 18 19 20 21
+  Terminator (42)
+    on right: 4 5 6 51 52 53 54 62 63 64 66 67 68
     on left : 7 8
-  Self (42)
-    on right: 9 53
-    on left : 21
-  Literal (43)
+  Self (43)
+    on right: 9 55
+    on left : 22
+  Super (44)
     on right: 10
-    on left : 22 23 24 25 26
-  Call (44)
+    on left : 23
+  Literal (45)
     on right: 11
-    on left : 27 28 29 30
-  Operator (45)
+    on left : 24 25 26 27 28
+  Call (46)
     on right: 12
-    on left : 35 36 37 38 39 40 41 42 43 44 45 46 47
-  Constant (46)
-    on right: 13 55
-    on left : 63
-  Assign (47)
-    on right: 14
-    on left : 48
-  Def (48)
+    on left : 29 30 31 32
+  Operator (47)
+    on right: 13
+    on left : 37 38 39 40 41 42 43 44 45 46 47 48 49
+  Constant (48)
+    on right: 14 57
+    on left : 65
+  Assign (49)
     on right: 15
-    on left : 49 50 51 52
-  Class (49)
+    on left : 50
+  Def (50)
     on right: 16
-    on left : 60 61
-  Module (50)
+    on left : 51 52 53 54
+  Class (51)
     on right: 17
-    on left : 62
-  If (51)
+    on left : 62 63
+  Module (52)
     on right: 18
-    on left : 64 65
-  While (52)
+    on left : 64
+  If (53)
     on right: 19
-    on left : 66
-  ArgListWithParens (53)
-    on right: 28 30
-    on left : 31 32
-  ArgList (54)
-    on right: 32 34
+    on left : 66 67
+  While (54)
+    on right: 20
+    on left : 68
+  ArgListWithParens (55)
+    on right: 30 32
     on left : 33 34
-  ParamList (55)
-    on right: 50 51 59
-    on left : 57 58 59
-  SingletonObject (56)
-    on right: 51 52
-    on left : 53 54 55 56
+  ArgList (56)
+    on right: 34 36
+    on left : 35 36
+  ParamList (57)
+    on right: 52 53 61
+    on left : 59 60 61
+  SingletonObject (58)
+    on right: 53 54
+    on left : 55 56 57 58
 
 **Terminals, with rules where they appear
 
   $end (0) 
   error (1) 
-  IF (2) 64 65
-  ELSE (3) 65
-  WHILE (4) 66
-  DEF (5) 49 50 51 52
-  CLASS (6) 60 61
+  IF (2) 66 67
+  ELSE (3) 67
+  WHILE (4) 68
+  DEF (5) 51 52 53 54
+  CLASS (6) 62 63
   NEWLINE (7) 7
-  NUMBER (8) 22
-  STRING (9) 23
-  TRUE (10) 24
-  FALSE (11) 25
-  NIL (12) 26
-  IDENTIFIER (13) 27 28 29 30 48 49 50 51 52 54 58 59
-  CONSTANT (14) 60 61 62 63
-  END (15) 49 50 51 52 60 61 62 64 65 66
-  MODULE (16) 62
-  SELF (17) 21
-  "." (18) 29 30 51 52
-  "!" (19) 47
-  "*" (20) 45
-  "/" (21) 46
-  "+" (22) 43
-  "-" (23) 44
-  ">" (24) 39
-  ">=" (25) 40
-  "<" (26) 41 61
-  "<=" (27) 42
-  "==" (28) 37
-  "!=" (29) 38
-  "&&" (30) 36
-  "||" (31) 35
-  "=" (32) 48
-  "," (33) 34 59
-  ";" (34) 8
-  "(" (35) 20 31 32 50 51 56
-  ")" (36) 20 31 32 50 51 56
+  NUMBER (8) 24
+  STRING (9) 25
+  TRUE (10) 26
+  FALSE (11) 27
+  NIL (12) 28
+  IDENTIFIER (13) 29 30 31 32 50 51 52 53 54 56 60 61
+  CONSTANT (14) 62 63 64 65
+  END (15) 51 52 53 54 62 63 64 66 67 68
+  MODULE (16) 64
+  SELF (17) 22
+  SUPER (18) 23
+  "." (19) 31 32 53 54
+  "!" (20) 49
+  "*" (21) 47
+  "/" (22) 48
+  "+" (23) 45
+  "-" (24) 46
+  ">" (25) 41
+  ">=" (26) 42
+  "<" (27) 43 63
+  "<=" (28) 44
+  "==" (29) 39
+  "!=" (30) 40
+  "&&" (31) 38
+  "||" (32) 37
+  "=" (33) 50
+  "," (34) 36 61
+  ";" (35) 8
+  "(" (36) 21 33 34 52 53 58
+  ")" (37) 21 33 34 52 53 58
 
 --------- State ---------
 
 state 0
 
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
   NEWLINE       shift, and go to state 5
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
   ";"           shift, and go to state 6
-  "("           shift, and go to state 18
+  "("           shift, and go to state 19
   $default      reduce using rule 1 (Root)
 
   Root          go to state 1
@@ -203,21 +210,22 @@ state 0
   Expression    go to state 3
   Terminator    go to state 4
   Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
 
 state 1
 
 
-  $end          shift, and go to state 33
+  $end          shift, and go to state 35
 
 
 state 2
@@ -230,39 +238,39 @@ state 2
   ";"           shift, and go to state 6
   $default      reduce using rule 2 (Root)
 
-  Terminator    go to state 34
+  Terminator    go to state 36
 
 state 3
 
    3) Expressions : Expression _
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
 
-  "."           shift, and go to state 35
-  "*"           shift, and go to state 46
-  "/"           shift, and go to state 47
-  "+"           shift, and go to state 44
-  "-"           shift, and go to state 45
-  ">"           shift, and go to state 40
-  ">="          shift, and go to state 41
-  "<"           shift, and go to state 42
-  "<="          shift, and go to state 43
-  "=="          shift, and go to state 38
-  "!="          shift, and go to state 39
-  "&&"          shift, and go to state 37
-  "||"          shift, and go to state 36
+  "."           shift, and go to state 37
+  "*"           shift, and go to state 48
+  "/"           shift, and go to state 49
+  "+"           shift, and go to state 46
+  "-"           shift, and go to state 47
+  ">"           shift, and go to state 42
+  ">="          shift, and go to state 43
+  "<"           shift, and go to state 44
+  "<="          shift, and go to state 45
+  "=="          shift, and go to state 40
+  "!="          shift, and go to state 41
+  "&&"          shift, and go to state 39
+  "||"          shift, and go to state 38
   $default      reduce using rule 3 (Expressions)
 
 
@@ -296,2352 +304,2430 @@ state 7
 
 state 8
 
-  10) Expression : Literal _
+  10) Expression : Super _
 
   $default      reduce using rule 10 (Expression)
 
 
 state 9
 
-  11) Expression : Call _
+  11) Expression : Literal _
 
   $default      reduce using rule 11 (Expression)
 
 
 state 10
 
-  12) Expression : Operator _
+  12) Expression : Call _
 
   $default      reduce using rule 12 (Expression)
 
 
 state 11
 
-  13) Expression : Constant _
+  13) Expression : Operator _
 
   $default      reduce using rule 13 (Expression)
 
 
 state 12
 
-  14) Expression : Assign _
+  14) Expression : Constant _
 
   $default      reduce using rule 14 (Expression)
 
 
 state 13
 
-  15) Expression : Def _
+  15) Expression : Assign _
 
   $default      reduce using rule 15 (Expression)
 
 
 state 14
 
-  16) Expression : Class _
+  16) Expression : Def _
 
   $default      reduce using rule 16 (Expression)
 
 
 state 15
 
-  17) Expression : Module _
+  17) Expression : Class _
 
   $default      reduce using rule 17 (Expression)
 
 
 state 16
 
-  18) Expression : If _
+  18) Expression : Module _
 
   $default      reduce using rule 18 (Expression)
 
 
 state 17
 
-  19) Expression : While _
+  19) Expression : If _
 
   $default      reduce using rule 19 (Expression)
 
 
 state 18
 
-  20) Expression : "(" _ Expression ")"
+  20) Expression : While _
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  $default      reduce using rule 20 (Expression)
 
-  Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
-  Expression    go to state 48
 
 state 19
 
-  21) Self : SELF _
+  21) Expression : "(" _ Expression ")"
 
-  $default      reduce using rule 21 (Self)
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
 
+  Self          go to state 7
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
+  Expression    go to state 50
 
 state 20
 
-  22) Literal : NUMBER _
+  22) Self : SELF _
 
-  $default      reduce using rule 22 (Literal)
+  $default      reduce using rule 22 (Self)
 
 
 state 21
 
-  23) Literal : STRING _
+  23) Super : SUPER _
 
-  $default      reduce using rule 23 (Literal)
+  $default      reduce using rule 23 (Super)
 
 
 state 22
 
-  24) Literal : TRUE _
+  24) Literal : NUMBER _
 
   $default      reduce using rule 24 (Literal)
 
 
 state 23
 
-  25) Literal : FALSE _
+  25) Literal : STRING _
 
   $default      reduce using rule 25 (Literal)
 
 
 state 24
 
-  26) Literal : NIL _
+  26) Literal : TRUE _
 
   $default      reduce using rule 26 (Literal)
 
 
 state 25
 
-  27) Call : IDENTIFIER _
-  28) Call : IDENTIFIER _ ArgListWithParens
-  48) Assign : IDENTIFIER _ "=" Expression
+  27) Literal : FALSE _
 
-  "="           shift, and go to state 51
-  "("           shift, and go to state 50
-  $default      reduce using rule 27 (Call)
+  $default      reduce using rule 27 (Literal)
 
-  ArgListWithParens  go to state 49
 
 state 26
 
-  47) Operator : "!" _ Expression
+  28) Literal : NIL _
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  $default      reduce using rule 28 (Literal)
 
-  Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
-  Expression    go to state 52
 
 state 27
 
-  49) Def : DEF _ IDENTIFIER Terminator Expressions END
-  50) Def : DEF _ IDENTIFIER "(" ParamList ")" Terminator Expressions END
-  51) Def : DEF _ SingletonObject "." IDENTIFIER "(" ParamList ")" Terminator Expressions END
-  52) Def : DEF _ SingletonObject "." IDENTIFIER Terminator Expressions END
+  29) Call : IDENTIFIER _
+  30) Call : IDENTIFIER _ ArgListWithParens
+  50) Assign : IDENTIFIER _ "=" Expression
 
-  IDENTIFIER    shift, and go to state 53
-  CONSTANT      shift, and go to state 30
-  SELF          shift, and go to state 19
-  "("           shift, and go to state 57
+  "="           shift, and go to state 53
+  "("           shift, and go to state 52
+  $default      reduce using rule 29 (Call)
 
-  SingletonObject  go to state 54
-  Self          go to state 55
-  Constant      go to state 56
+  ArgListWithParens  go to state 51
 
 state 28
 
-  60) Class : CLASS _ CONSTANT Terminator Expressions END
-  61) Class : CLASS _ CONSTANT "<" Expression Terminator Expressions END
+  49) Operator : "!" _ Expression
 
-  CONSTANT      shift, and go to state 58
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
 
+  Self          go to state 7
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
+  Expression    go to state 54
 
 state 29
 
-  62) Module : MODULE _ CONSTANT Terminator Expressions END
+  51) Def : DEF _ IDENTIFIER Terminator Expressions END
+  52) Def : DEF _ IDENTIFIER "(" ParamList ")" Terminator Expressions END
+  53) Def : DEF _ SingletonObject "." IDENTIFIER "(" ParamList ")" Terminator Expressions END
+  54) Def : DEF _ SingletonObject "." IDENTIFIER Terminator Expressions END
 
-  CONSTANT      shift, and go to state 59
+  IDENTIFIER    shift, and go to state 55
+  CONSTANT      shift, and go to state 32
+  SELF          shift, and go to state 20
+  "("           shift, and go to state 59
 
+  SingletonObject  go to state 56
+  Self          go to state 57
+  Constant      go to state 58
 
 state 30
 
-  63) Constant : CONSTANT _
+  62) Class : CLASS _ CONSTANT Terminator Expressions END
+  63) Class : CLASS _ CONSTANT "<" Expression Terminator Expressions END
 
-  $default      reduce using rule 63 (Constant)
+  CONSTANT      shift, and go to state 60
 
 
 state 31
 
-  64) If : IF _ Expression Terminator Expressions END
-  65) If : IF _ Expression Terminator Expressions ELSE Terminator Expressions END
+  64) Module : MODULE _ CONSTANT Terminator Expressions END
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  CONSTANT      shift, and go to state 61
 
-  Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
-  Expression    go to state 60
 
 state 32
 
-  66) While : WHILE _ Expression Terminator Expressions END
+  65) Constant : CONSTANT _
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  $default      reduce using rule 65 (Constant)
 
-  Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
-  Expression    go to state 61
 
 state 33
 
+  66) If : IF _ Expression Terminator Expressions END
+  67) If : IF _ Expression Terminator Expressions ELSE Terminator Expressions END
 
-  $end          shift, and go to state 62
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
 
+  Self          go to state 7
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
+  Expression    go to state 62
 
 state 34
 
-   4) Expressions : Expressions Terminator _ Expression
-   5) Expressions : Expressions Terminator _
+  68) While : WHILE _ Expression Terminator Expressions END
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
-  $default      reduce using rule 5 (Expressions)
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
 
-  Expression    go to state 63
   Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
+  Expression    go to state 63
 
 state 35
 
-  29) Call : Expression "." _ IDENTIFIER
-  30) Call : Expression "." _ IDENTIFIER ArgListWithParens
 
-  IDENTIFIER    shift, and go to state 64
+  $end          shift, and go to state 64
 
 
 state 36
 
-  35) Operator : Expression "||" _ Expression
+   4) Expressions : Expressions Terminator _ Expression
+   5) Expressions : Expressions Terminator _
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
+  $default      reduce using rule 5 (Expressions)
 
-  Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
   Expression    go to state 65
+  Self          go to state 7
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
 
 state 37
 
-  36) Operator : Expression "&&" _ Expression
+  31) Call : Expression "." _ IDENTIFIER
+  32) Call : Expression "." _ IDENTIFIER ArgListWithParens
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  IDENTIFIER    shift, and go to state 66
 
-  Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
-  Expression    go to state 66
 
 state 38
 
-  37) Operator : Expression "==" _ Expression
+  37) Operator : Expression "||" _ Expression
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
 
   Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
   Expression    go to state 67
 
 state 39
 
-  38) Operator : Expression "!=" _ Expression
+  38) Operator : Expression "&&" _ Expression
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
 
   Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
   Expression    go to state 68
 
 state 40
 
-  39) Operator : Expression ">" _ Expression
+  39) Operator : Expression "==" _ Expression
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
 
   Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
   Expression    go to state 69
 
 state 41
 
-  40) Operator : Expression ">=" _ Expression
+  40) Operator : Expression "!=" _ Expression
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
 
   Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
   Expression    go to state 70
 
 state 42
 
-  41) Operator : Expression "<" _ Expression
+  41) Operator : Expression ">" _ Expression
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
 
   Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
   Expression    go to state 71
 
 state 43
 
-  42) Operator : Expression "<=" _ Expression
+  42) Operator : Expression ">=" _ Expression
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
 
   Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
   Expression    go to state 72
 
 state 44
 
-  43) Operator : Expression "+" _ Expression
+  43) Operator : Expression "<" _ Expression
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
 
   Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
   Expression    go to state 73
 
 state 45
 
-  44) Operator : Expression "-" _ Expression
+  44) Operator : Expression "<=" _ Expression
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
 
   Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
   Expression    go to state 74
 
 state 46
 
-  45) Operator : Expression "*" _ Expression
+  45) Operator : Expression "+" _ Expression
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
 
   Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
   Expression    go to state 75
 
 state 47
 
-  46) Operator : Expression "/" _ Expression
+  46) Operator : Expression "-" _ Expression
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
 
   Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
   Expression    go to state 76
 
 state 48
 
-  20) Expression : "(" Expression _ ")"
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
+  47) Operator : Expression "*" _ Expression
 
-  "."           shift, and go to state 35
-  "*"           shift, and go to state 46
-  "/"           shift, and go to state 47
-  "+"           shift, and go to state 44
-  "-"           shift, and go to state 45
-  ">"           shift, and go to state 40
-  ">="          shift, and go to state 41
-  "<"           shift, and go to state 42
-  "<="          shift, and go to state 43
-  "=="          shift, and go to state 38
-  "!="          shift, and go to state 39
-  "&&"          shift, and go to state 37
-  "||"          shift, and go to state 36
-  ")"           shift, and go to state 77
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
 
+  Self          go to state 7
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
+  Expression    go to state 77
 
 state 49
 
-  28) Call : IDENTIFIER ArgListWithParens _
+  48) Operator : Expression "/" _ Expression
 
-  $default      reduce using rule 28 (Call)
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
 
+  Self          go to state 7
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
+  Expression    go to state 78
 
 state 50
 
-  31) ArgListWithParens : "(" _ ")"
-  32) ArgListWithParens : "(" _ ArgList ")"
+  21) Expression : "(" Expression _ ")"
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  "."           shift, and go to state 37
+  "*"           shift, and go to state 48
+  "/"           shift, and go to state 49
+  "+"           shift, and go to state 46
+  "-"           shift, and go to state 47
+  ">"           shift, and go to state 42
+  ">="          shift, and go to state 43
+  "<"           shift, and go to state 44
+  "<="          shift, and go to state 45
+  "=="          shift, and go to state 40
+  "!="          shift, and go to state 41
+  "&&"          shift, and go to state 39
+  "||"          shift, and go to state 38
   ")"           shift, and go to state 79
 
-  Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
-  Expression    go to state 78
-  ArgList       go to state 80
 
 state 51
 
-  48) Assign : IDENTIFIER "=" _ Expression
+  30) Call : IDENTIFIER ArgListWithParens _
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  $default      reduce using rule 30 (Call)
 
-  Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
-  Expression    go to state 81
 
 state 52
 
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
-  47) Operator : "!" Expression _
+  33) ArgListWithParens : "(" _ ")"
+  34) ArgListWithParens : "(" _ ArgList ")"
 
-  "."           shift, and go to state 35
-  $default      reduce using rule 47 (Operator)
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
+  ")"           shift, and go to state 81
 
+  Self          go to state 7
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
+  Expression    go to state 80
+  ArgList       go to state 82
 
 state 53
 
-  49) Def : DEF IDENTIFIER _ Terminator Expressions END
-  50) Def : DEF IDENTIFIER _ "(" ParamList ")" Terminator Expressions END
-  54) SingletonObject : IDENTIFIER _
+  50) Assign : IDENTIFIER "=" _ Expression
 
-  NEWLINE       shift, and go to state 5
-  ";"           shift, and go to state 6
-  "("           shift, and go to state 83
-  $default      reduce using rule 54 (SingletonObject)
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
 
-  Terminator    go to state 82
+  Self          go to state 7
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
+  Expression    go to state 83
 
 state 54
 
-  51) Def : DEF SingletonObject _ "." IDENTIFIER "(" ParamList ")" Terminator Expressions END
-  52) Def : DEF SingletonObject _ "." IDENTIFIER Terminator Expressions END
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
+  49) Operator : "!" Expression _
 
-  "."           shift, and go to state 84
+  "."           shift, and go to state 37
+  $default      reduce using rule 49 (Operator)
 
 
 state 55
 
-  53) SingletonObject : Self _
+  51) Def : DEF IDENTIFIER _ Terminator Expressions END
+  52) Def : DEF IDENTIFIER _ "(" ParamList ")" Terminator Expressions END
+  56) SingletonObject : IDENTIFIER _
 
-  $default      reduce using rule 53 (SingletonObject)
+  NEWLINE       shift, and go to state 5
+  ";"           shift, and go to state 6
+  "("           shift, and go to state 85
+  $default      reduce using rule 56 (SingletonObject)
 
+  Terminator    go to state 84
 
 state 56
 
-  55) SingletonObject : Constant _
+  53) Def : DEF SingletonObject _ "." IDENTIFIER "(" ParamList ")" Terminator Expressions END
+  54) Def : DEF SingletonObject _ "." IDENTIFIER Terminator Expressions END
 
-  $default      reduce using rule 55 (SingletonObject)
+  "."           shift, and go to state 86
 
 
 state 57
 
-  56) SingletonObject : "(" _ Expression ")"
+  55) SingletonObject : Self _
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  $default      reduce using rule 55 (SingletonObject)
 
-  Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
-  Expression    go to state 85
 
 state 58
 
-  60) Class : CLASS CONSTANT _ Terminator Expressions END
-  61) Class : CLASS CONSTANT _ "<" Expression Terminator Expressions END
+  57) SingletonObject : Constant _
 
-  NEWLINE       shift, and go to state 5
-  "<"           shift, and go to state 87
-  ";"           shift, and go to state 6
+  $default      reduce using rule 57 (SingletonObject)
 
-  Terminator    go to state 86
 
 state 59
 
-  62) Module : MODULE CONSTANT _ Terminator Expressions END
+  58) SingletonObject : "(" _ Expression ")"
+
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
+
+  Self          go to state 7
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
+  Expression    go to state 87
+
+state 60
+
+  62) Class : CLASS CONSTANT _ Terminator Expressions END
+  63) Class : CLASS CONSTANT _ "<" Expression Terminator Expressions END
 
   NEWLINE       shift, and go to state 5
+  "<"           shift, and go to state 89
   ";"           shift, and go to state 6
 
   Terminator    go to state 88
 
-state 60
-
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
-  64) If : IF Expression _ Terminator Expressions END
-  65) If : IF Expression _ Terminator Expressions ELSE Terminator Expressions END
-
-  NEWLINE       shift, and go to state 5
-  "."           shift, and go to state 35
-  "*"           shift, and go to state 46
-  "/"           shift, and go to state 47
-  "+"           shift, and go to state 44
-  "-"           shift, and go to state 45
-  ">"           shift, and go to state 40
-  ">="          shift, and go to state 41
-  "<"           shift, and go to state 42
-  "<="          shift, and go to state 43
-  "=="          shift, and go to state 38
-  "!="          shift, and go to state 39
-  "&&"          shift, and go to state 37
-  "||"          shift, and go to state 36
-  ";"           shift, and go to state 6
-
-  Terminator    go to state 89
-
 state 61
 
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
-  66) While : WHILE Expression _ Terminator Expressions END
+  64) Module : MODULE CONSTANT _ Terminator Expressions END
 
   NEWLINE       shift, and go to state 5
-  "."           shift, and go to state 35
-  "*"           shift, and go to state 46
-  "/"           shift, and go to state 47
-  "+"           shift, and go to state 44
-  "-"           shift, and go to state 45
-  ">"           shift, and go to state 40
-  ">="          shift, and go to state 41
-  "<"           shift, and go to state 42
-  "<="          shift, and go to state 43
-  "=="          shift, and go to state 38
-  "!="          shift, and go to state 39
-  "&&"          shift, and go to state 37
-  "||"          shift, and go to state 36
   ";"           shift, and go to state 6
 
   Terminator    go to state 90
 
 state 62
 
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
+  66) If : IF Expression _ Terminator Expressions END
+  67) If : IF Expression _ Terminator Expressions ELSE Terminator Expressions END
+
+  NEWLINE       shift, and go to state 5
+  "."           shift, and go to state 37
+  "*"           shift, and go to state 48
+  "/"           shift, and go to state 49
+  "+"           shift, and go to state 46
+  "-"           shift, and go to state 47
+  ">"           shift, and go to state 42
+  ">="          shift, and go to state 43
+  "<"           shift, and go to state 44
+  "<="          shift, and go to state 45
+  "=="          shift, and go to state 40
+  "!="          shift, and go to state 41
+  "&&"          shift, and go to state 39
+  "||"          shift, and go to state 38
+  ";"           shift, and go to state 6
+
+  Terminator    go to state 91
+
+state 63
+
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
+  68) While : WHILE Expression _ Terminator Expressions END
+
+  NEWLINE       shift, and go to state 5
+  "."           shift, and go to state 37
+  "*"           shift, and go to state 48
+  "/"           shift, and go to state 49
+  "+"           shift, and go to state 46
+  "-"           shift, and go to state 47
+  ">"           shift, and go to state 42
+  ">="          shift, and go to state 43
+  "<"           shift, and go to state 44
+  "<="          shift, and go to state 45
+  "=="          shift, and go to state 40
+  "!="          shift, and go to state 41
+  "&&"          shift, and go to state 39
+  "||"          shift, and go to state 38
+  ";"           shift, and go to state 6
+
+  Terminator    go to state 92
+
+state 64
+
 
   $default      accept
 
 
-state 63
-
-   4) Expressions : Expressions Terminator Expression _
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
-
-  "."           shift, and go to state 35
-  "*"           shift, and go to state 46
-  "/"           shift, and go to state 47
-  "+"           shift, and go to state 44
-  "-"           shift, and go to state 45
-  ">"           shift, and go to state 40
-  ">="          shift, and go to state 41
-  "<"           shift, and go to state 42
-  "<="          shift, and go to state 43
-  "=="          shift, and go to state 38
-  "!="          shift, and go to state 39
-  "&&"          shift, and go to state 37
-  "||"          shift, and go to state 36
-  $default      reduce using rule 4 (Expressions)
-
-
-state 64
-
-  29) Call : Expression "." IDENTIFIER _
-  30) Call : Expression "." IDENTIFIER _ ArgListWithParens
-
-  "("           shift, and go to state 50
-  $default      reduce using rule 29 (Call)
-
-  ArgListWithParens  go to state 91
-
 state 65
 
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  35) Operator : Expression "||" Expression _
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
+   4) Expressions : Expressions Terminator Expression _
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
 
-  "."           shift, and go to state 35
-  "*"           shift, and go to state 46
-  "/"           shift, and go to state 47
-  "+"           shift, and go to state 44
-  "-"           shift, and go to state 45
-  ">"           shift, and go to state 40
-  ">="          shift, and go to state 41
-  "<"           shift, and go to state 42
-  "<="          shift, and go to state 43
-  "=="          shift, and go to state 38
-  "!="          shift, and go to state 39
-  "&&"          shift, and go to state 37
-  $default      reduce using rule 35 (Operator)
+  "."           shift, and go to state 37
+  "*"           shift, and go to state 48
+  "/"           shift, and go to state 49
+  "+"           shift, and go to state 46
+  "-"           shift, and go to state 47
+  ">"           shift, and go to state 42
+  ">="          shift, and go to state 43
+  "<"           shift, and go to state 44
+  "<="          shift, and go to state 45
+  "=="          shift, and go to state 40
+  "!="          shift, and go to state 41
+  "&&"          shift, and go to state 39
+  "||"          shift, and go to state 38
+  $default      reduce using rule 4 (Expressions)
 
 
 state 66
 
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  36) Operator : Expression "&&" Expression _
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
+  31) Call : Expression "." IDENTIFIER _
+  32) Call : Expression "." IDENTIFIER _ ArgListWithParens
 
-  "."           shift, and go to state 35
-  "*"           shift, and go to state 46
-  "/"           shift, and go to state 47
-  "+"           shift, and go to state 44
-  "-"           shift, and go to state 45
-  ">"           shift, and go to state 40
-  ">="          shift, and go to state 41
-  "<"           shift, and go to state 42
-  "<="          shift, and go to state 43
-  "=="          shift, and go to state 38
-  "!="          shift, and go to state 39
-  $default      reduce using rule 36 (Operator)
+  "("           shift, and go to state 52
+  $default      reduce using rule 31 (Call)
 
+  ArgListWithParens  go to state 93
 
 state 67
 
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  37) Operator : Expression "==" Expression _
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  37) Operator : Expression "||" Expression _
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
 
-  "."           shift, and go to state 35
-  "*"           shift, and go to state 46
-  "/"           shift, and go to state 47
-  "+"           shift, and go to state 44
-  "-"           shift, and go to state 45
-  ">"           shift, and go to state 40
-  ">="          shift, and go to state 41
-  "<"           shift, and go to state 42
-  "<="          shift, and go to state 43
+  "."           shift, and go to state 37
+  "*"           shift, and go to state 48
+  "/"           shift, and go to state 49
+  "+"           shift, and go to state 46
+  "-"           shift, and go to state 47
+  ">"           shift, and go to state 42
+  ">="          shift, and go to state 43
+  "<"           shift, and go to state 44
+  "<="          shift, and go to state 45
+  "=="          shift, and go to state 40
+  "!="          shift, and go to state 41
+  "&&"          shift, and go to state 39
   $default      reduce using rule 37 (Operator)
 
 
 state 68
 
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  38) Operator : Expression "!=" Expression _
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  38) Operator : Expression "&&" Expression _
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
 
-  "."           shift, and go to state 35
-  "*"           shift, and go to state 46
-  "/"           shift, and go to state 47
-  "+"           shift, and go to state 44
-  "-"           shift, and go to state 45
-  ">"           shift, and go to state 40
-  ">="          shift, and go to state 41
-  "<"           shift, and go to state 42
-  "<="          shift, and go to state 43
+  "."           shift, and go to state 37
+  "*"           shift, and go to state 48
+  "/"           shift, and go to state 49
+  "+"           shift, and go to state 46
+  "-"           shift, and go to state 47
+  ">"           shift, and go to state 42
+  ">="          shift, and go to state 43
+  "<"           shift, and go to state 44
+  "<="          shift, and go to state 45
+  "=="          shift, and go to state 40
+  "!="          shift, and go to state 41
   $default      reduce using rule 38 (Operator)
 
 
 state 69
 
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  39) Operator : Expression ">" Expression _
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  39) Operator : Expression "==" Expression _
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
 
-  "."           shift, and go to state 35
-  "*"           shift, and go to state 46
-  "/"           shift, and go to state 47
-  "+"           shift, and go to state 44
-  "-"           shift, and go to state 45
+  "."           shift, and go to state 37
+  "*"           shift, and go to state 48
+  "/"           shift, and go to state 49
+  "+"           shift, and go to state 46
+  "-"           shift, and go to state 47
+  ">"           shift, and go to state 42
+  ">="          shift, and go to state 43
+  "<"           shift, and go to state 44
+  "<="          shift, and go to state 45
   $default      reduce using rule 39 (Operator)
 
 
 state 70
 
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  40) Operator : Expression ">=" Expression _
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  40) Operator : Expression "!=" Expression _
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
 
-  "."           shift, and go to state 35
-  "*"           shift, and go to state 46
-  "/"           shift, and go to state 47
-  "+"           shift, and go to state 44
-  "-"           shift, and go to state 45
+  "."           shift, and go to state 37
+  "*"           shift, and go to state 48
+  "/"           shift, and go to state 49
+  "+"           shift, and go to state 46
+  "-"           shift, and go to state 47
+  ">"           shift, and go to state 42
+  ">="          shift, and go to state 43
+  "<"           shift, and go to state 44
+  "<="          shift, and go to state 45
   $default      reduce using rule 40 (Operator)
 
 
 state 71
 
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  41) Operator : Expression "<" Expression _
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  41) Operator : Expression ">" Expression _
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
 
-  "."           shift, and go to state 35
-  "*"           shift, and go to state 46
-  "/"           shift, and go to state 47
-  "+"           shift, and go to state 44
-  "-"           shift, and go to state 45
+  "."           shift, and go to state 37
+  "*"           shift, and go to state 48
+  "/"           shift, and go to state 49
+  "+"           shift, and go to state 46
+  "-"           shift, and go to state 47
   $default      reduce using rule 41 (Operator)
 
 
 state 72
 
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  42) Operator : Expression "<=" Expression _
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  42) Operator : Expression ">=" Expression _
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
 
-  "."           shift, and go to state 35
-  "*"           shift, and go to state 46
-  "/"           shift, and go to state 47
-  "+"           shift, and go to state 44
-  "-"           shift, and go to state 45
+  "."           shift, and go to state 37
+  "*"           shift, and go to state 48
+  "/"           shift, and go to state 49
+  "+"           shift, and go to state 46
+  "-"           shift, and go to state 47
   $default      reduce using rule 42 (Operator)
 
 
 state 73
 
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  43) Operator : Expression "+" Expression _
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  43) Operator : Expression "<" Expression _
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
 
-  "."           shift, and go to state 35
-  "*"           shift, and go to state 46
-  "/"           shift, and go to state 47
+  "."           shift, and go to state 37
+  "*"           shift, and go to state 48
+  "/"           shift, and go to state 49
+  "+"           shift, and go to state 46
+  "-"           shift, and go to state 47
   $default      reduce using rule 43 (Operator)
 
 
 state 74
 
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  44) Operator : Expression "-" Expression _
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  44) Operator : Expression "<=" Expression _
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
 
-  "."           shift, and go to state 35
-  "*"           shift, and go to state 46
-  "/"           shift, and go to state 47
+  "."           shift, and go to state 37
+  "*"           shift, and go to state 48
+  "/"           shift, and go to state 49
+  "+"           shift, and go to state 46
+  "-"           shift, and go to state 47
   $default      reduce using rule 44 (Operator)
 
 
 state 75
 
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  45) Operator : Expression "*" Expression _
-  46) Operator : Expression _ "/" Expression
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  45) Operator : Expression "+" Expression _
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
 
-  "."           shift, and go to state 35
+  "."           shift, and go to state 37
+  "*"           shift, and go to state 48
+  "/"           shift, and go to state 49
   $default      reduce using rule 45 (Operator)
 
 
 state 76
 
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
-  46) Operator : Expression "/" Expression _
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  46) Operator : Expression "-" Expression _
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
 
-  "."           shift, and go to state 35
+  "."           shift, and go to state 37
+  "*"           shift, and go to state 48
+  "/"           shift, and go to state 49
   $default      reduce using rule 46 (Operator)
 
 
 state 77
 
-  20) Expression : "(" Expression ")" _
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  47) Operator : Expression "*" Expression _
+  48) Operator : Expression _ "/" Expression
 
-  $default      reduce using rule 20 (Expression)
+  "."           shift, and go to state 37
+  $default      reduce using rule 47 (Operator)
 
 
 state 78
 
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  33) ArgList : Expression _
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
+  48) Operator : Expression "/" Expression _
 
-  "."           shift, and go to state 35
-  "*"           shift, and go to state 46
-  "/"           shift, and go to state 47
-  "+"           shift, and go to state 44
-  "-"           shift, and go to state 45
-  ">"           shift, and go to state 40
-  ">="          shift, and go to state 41
-  "<"           shift, and go to state 42
-  "<="          shift, and go to state 43
-  "=="          shift, and go to state 38
-  "!="          shift, and go to state 39
-  "&&"          shift, and go to state 37
-  "||"          shift, and go to state 36
-  $default      reduce using rule 33 (ArgList)
+  "."           shift, and go to state 37
+  $default      reduce using rule 48 (Operator)
 
 
 state 79
 
-  31) ArgListWithParens : "(" ")" _
+  21) Expression : "(" Expression ")" _
 
-  $default      reduce using rule 31 (ArgListWithParens)
+  $default      reduce using rule 21 (Expression)
 
 
 state 80
 
-  32) ArgListWithParens : "(" ArgList _ ")"
-  34) ArgList : ArgList _ "," Expression
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  35) ArgList : Expression _
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
 
-  ","           shift, and go to state 93
-  ")"           shift, and go to state 92
+  "."           shift, and go to state 37
+  "*"           shift, and go to state 48
+  "/"           shift, and go to state 49
+  "+"           shift, and go to state 46
+  "-"           shift, and go to state 47
+  ">"           shift, and go to state 42
+  ">="          shift, and go to state 43
+  "<"           shift, and go to state 44
+  "<="          shift, and go to state 45
+  "=="          shift, and go to state 40
+  "!="          shift, and go to state 41
+  "&&"          shift, and go to state 39
+  "||"          shift, and go to state 38
+  $default      reduce using rule 35 (ArgList)
 
 
 state 81
 
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
-  48) Assign : IDENTIFIER "=" Expression _
+  33) ArgListWithParens : "(" ")" _
 
-  "."           shift, and go to state 35
-  "*"           shift, and go to state 46
-  "/"           shift, and go to state 47
-  "+"           shift, and go to state 44
-  "-"           shift, and go to state 45
-  ">"           shift, and go to state 40
-  ">="          shift, and go to state 41
-  "<"           shift, and go to state 42
-  "<="          shift, and go to state 43
-  "=="          shift, and go to state 38
-  "!="          shift, and go to state 39
-  "&&"          shift, and go to state 37
-  "||"          shift, and go to state 36
-  $default      reduce using rule 48 (Assign)
+  $default      reduce using rule 33 (ArgListWithParens)
 
 
 state 82
 
-  49) Def : DEF IDENTIFIER Terminator _ Expressions END
+  34) ArgListWithParens : "(" ArgList _ ")"
+  36) ArgList : ArgList _ "," Expression
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NEWLINE       shift, and go to state 5
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  ";"           shift, and go to state 6
-  "("           shift, and go to state 18
+  ","           shift, and go to state 95
+  ")"           shift, and go to state 94
 
-  Expression    go to state 3
-  Expressions   go to state 94
-  Terminator    go to state 4
-  Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
 
 state 83
 
-  50) Def : DEF IDENTIFIER "(" _ ParamList ")" Terminator Expressions END
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
+  50) Assign : IDENTIFIER "=" Expression _
 
-  IDENTIFIER    shift, and go to state 96
-  $default      reduce using rule 57 (ParamList)
+  "."           shift, and go to state 37
+  "*"           shift, and go to state 48
+  "/"           shift, and go to state 49
+  "+"           shift, and go to state 46
+  "-"           shift, and go to state 47
+  ">"           shift, and go to state 42
+  ">="          shift, and go to state 43
+  "<"           shift, and go to state 44
+  "<="          shift, and go to state 45
+  "=="          shift, and go to state 40
+  "!="          shift, and go to state 41
+  "&&"          shift, and go to state 39
+  "||"          shift, and go to state 38
+  $default      reduce using rule 50 (Assign)
 
-  ParamList     go to state 95
 
 state 84
 
-  51) Def : DEF SingletonObject "." _ IDENTIFIER "(" ParamList ")" Terminator Expressions END
-  52) Def : DEF SingletonObject "." _ IDENTIFIER Terminator Expressions END
+  51) Def : DEF IDENTIFIER Terminator _ Expressions END
 
-  IDENTIFIER    shift, and go to state 97
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NEWLINE       shift, and go to state 5
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  ";"           shift, and go to state 6
+  "("           shift, and go to state 19
 
+  Expression    go to state 3
+  Expressions   go to state 96
+  Terminator    go to state 4
+  Self          go to state 7
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
 
 state 85
 
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
-  56) SingletonObject : "(" Expression _ ")"
+  52) Def : DEF IDENTIFIER "(" _ ParamList ")" Terminator Expressions END
 
-  "."           shift, and go to state 35
-  "*"           shift, and go to state 46
-  "/"           shift, and go to state 47
-  "+"           shift, and go to state 44
-  "-"           shift, and go to state 45
-  ">"           shift, and go to state 40
-  ">="          shift, and go to state 41
-  "<"           shift, and go to state 42
-  "<="          shift, and go to state 43
-  "=="          shift, and go to state 38
-  "!="          shift, and go to state 39
-  "&&"          shift, and go to state 37
-  "||"          shift, and go to state 36
-  ")"           shift, and go to state 98
+  IDENTIFIER    shift, and go to state 98
+  $default      reduce using rule 59 (ParamList)
 
+  ParamList     go to state 97
 
 state 86
 
-  60) Class : CLASS CONSTANT Terminator _ Expressions END
+  53) Def : DEF SingletonObject "." _ IDENTIFIER "(" ParamList ")" Terminator Expressions END
+  54) Def : DEF SingletonObject "." _ IDENTIFIER Terminator Expressions END
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NEWLINE       shift, and go to state 5
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  ";"           shift, and go to state 6
-  "("           shift, and go to state 18
+  IDENTIFIER    shift, and go to state 99
 
-  Expression    go to state 3
-  Expressions   go to state 99
-  Terminator    go to state 4
-  Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
 
 state 87
 
-  61) Class : CLASS CONSTANT "<" _ Expression Terminator Expressions END
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
+  58) SingletonObject : "(" Expression _ ")"
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  "."           shift, and go to state 37
+  "*"           shift, and go to state 48
+  "/"           shift, and go to state 49
+  "+"           shift, and go to state 46
+  "-"           shift, and go to state 47
+  ">"           shift, and go to state 42
+  ">="          shift, and go to state 43
+  "<"           shift, and go to state 44
+  "<="          shift, and go to state 45
+  "=="          shift, and go to state 40
+  "!="          shift, and go to state 41
+  "&&"          shift, and go to state 39
+  "||"          shift, and go to state 38
+  ")"           shift, and go to state 100
 
-  Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
-  Expression    go to state 100
 
 state 88
 
-  62) Module : MODULE CONSTANT Terminator _ Expressions END
+  62) Class : CLASS CONSTANT Terminator _ Expressions END
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
   NEWLINE       shift, and go to state 5
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
   ";"           shift, and go to state 6
-  "("           shift, and go to state 18
+  "("           shift, and go to state 19
 
   Expression    go to state 3
   Expressions   go to state 101
   Terminator    go to state 4
   Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
 
 state 89
 
-  64) If : IF Expression Terminator _ Expressions END
-  65) If : IF Expression Terminator _ Expressions ELSE Terminator Expressions END
+  63) Class : CLASS CONSTANT "<" _ Expression Terminator Expressions END
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NEWLINE       shift, and go to state 5
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  ";"           shift, and go to state 6
-  "("           shift, and go to state 18
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
 
-  Expression    go to state 3
-  Expressions   go to state 102
-  Terminator    go to state 4
   Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
+  Expression    go to state 102
 
 state 90
 
-  66) While : WHILE Expression Terminator _ Expressions END
+  64) Module : MODULE CONSTANT Terminator _ Expressions END
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
   NEWLINE       shift, and go to state 5
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
   ";"           shift, and go to state 6
-  "("           shift, and go to state 18
+  "("           shift, and go to state 19
 
   Expression    go to state 3
   Expressions   go to state 103
   Terminator    go to state 4
   Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
 
 state 91
 
-  30) Call : Expression "." IDENTIFIER ArgListWithParens _
+  66) If : IF Expression Terminator _ Expressions END
+  67) If : IF Expression Terminator _ Expressions ELSE Terminator Expressions END
 
-  $default      reduce using rule 30 (Call)
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NEWLINE       shift, and go to state 5
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  ";"           shift, and go to state 6
+  "("           shift, and go to state 19
 
+  Expression    go to state 3
+  Expressions   go to state 104
+  Terminator    go to state 4
+  Self          go to state 7
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
 
 state 92
 
-  32) ArgListWithParens : "(" ArgList ")" _
+  68) While : WHILE Expression Terminator _ Expressions END
 
-  $default      reduce using rule 32 (ArgListWithParens)
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NEWLINE       shift, and go to state 5
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  ";"           shift, and go to state 6
+  "("           shift, and go to state 19
 
+  Expression    go to state 3
+  Expressions   go to state 105
+  Terminator    go to state 4
+  Self          go to state 7
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
 
 state 93
 
-  34) ArgList : ArgList "," _ Expression
+  32) Call : Expression "." IDENTIFIER ArgListWithParens _
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  "("           shift, and go to state 18
+  $default      reduce using rule 32 (Call)
 
-  Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
-  Expression    go to state 104
 
 state 94
 
-   4) Expressions : Expressions _ Terminator Expression
-   5) Expressions : Expressions _ Terminator
-  49) Def : DEF IDENTIFIER Terminator Expressions _ END
+  34) ArgListWithParens : "(" ArgList ")" _
 
-  NEWLINE       shift, and go to state 5
-  END           shift, and go to state 105
-  ";"           shift, and go to state 6
+  $default      reduce using rule 34 (ArgListWithParens)
 
-  Terminator    go to state 34
 
 state 95
 
-  50) Def : DEF IDENTIFIER "(" ParamList _ ")" Terminator Expressions END
-  59) ParamList : ParamList _ "," IDENTIFIER
+  36) ArgList : ArgList "," _ Expression
 
-  ","           shift, and go to state 107
-  ")"           shift, and go to state 106
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  "("           shift, and go to state 19
 
+  Self          go to state 7
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
+  Expression    go to state 106
 
 state 96
 
-  58) ParamList : IDENTIFIER _
+   4) Expressions : Expressions _ Terminator Expression
+   5) Expressions : Expressions _ Terminator
+  51) Def : DEF IDENTIFIER Terminator Expressions _ END
 
-  $default      reduce using rule 58 (ParamList)
+  NEWLINE       shift, and go to state 5
+  END           shift, and go to state 107
+  ";"           shift, and go to state 6
 
+  Terminator    go to state 36
 
 state 97
 
-  51) Def : DEF SingletonObject "." IDENTIFIER _ "(" ParamList ")" Terminator Expressions END
-  52) Def : DEF SingletonObject "." IDENTIFIER _ Terminator Expressions END
+  52) Def : DEF IDENTIFIER "(" ParamList _ ")" Terminator Expressions END
+  61) ParamList : ParamList _ "," IDENTIFIER
 
-  NEWLINE       shift, and go to state 5
-  ";"           shift, and go to state 6
-  "("           shift, and go to state 108
+  ","           shift, and go to state 109
+  ")"           shift, and go to state 108
 
-  Terminator    go to state 109
 
 state 98
 
-  56) SingletonObject : "(" Expression ")" _
+  60) ParamList : IDENTIFIER _
 
-  $default      reduce using rule 56 (SingletonObject)
+  $default      reduce using rule 60 (ParamList)
 
 
 state 99
 
-   4) Expressions : Expressions _ Terminator Expression
-   5) Expressions : Expressions _ Terminator
-  60) Class : CLASS CONSTANT Terminator Expressions _ END
+  53) Def : DEF SingletonObject "." IDENTIFIER _ "(" ParamList ")" Terminator Expressions END
+  54) Def : DEF SingletonObject "." IDENTIFIER _ Terminator Expressions END
 
   NEWLINE       shift, and go to state 5
-  END           shift, and go to state 110
   ";"           shift, and go to state 6
+  "("           shift, and go to state 110
 
-  Terminator    go to state 34
+  Terminator    go to state 111
 
 state 100
 
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
-  61) Class : CLASS CONSTANT "<" Expression _ Terminator Expressions END
+  58) SingletonObject : "(" Expression ")" _
 
-  NEWLINE       shift, and go to state 5
-  "."           shift, and go to state 35
-  "*"           shift, and go to state 46
-  "/"           shift, and go to state 47
-  "+"           shift, and go to state 44
-  "-"           shift, and go to state 45
-  ">"           shift, and go to state 40
-  ">="          shift, and go to state 41
-  "<"           shift, and go to state 42
-  "<="          shift, and go to state 43
-  "=="          shift, and go to state 38
-  "!="          shift, and go to state 39
-  "&&"          shift, and go to state 37
-  "||"          shift, and go to state 36
-  ";"           shift, and go to state 6
+  $default      reduce using rule 58 (SingletonObject)
 
-  Terminator    go to state 111
 
 state 101
 
    4) Expressions : Expressions _ Terminator Expression
    5) Expressions : Expressions _ Terminator
-  62) Module : MODULE CONSTANT Terminator Expressions _ END
+  62) Class : CLASS CONSTANT Terminator Expressions _ END
 
   NEWLINE       shift, and go to state 5
   END           shift, and go to state 112
   ";"           shift, and go to state 6
 
-  Terminator    go to state 34
+  Terminator    go to state 36
 
 state 102
 
-   4) Expressions : Expressions _ Terminator Expression
-   5) Expressions : Expressions _ Terminator
-  64) If : IF Expression Terminator Expressions _ END
-  65) If : IF Expression Terminator Expressions _ ELSE Terminator Expressions END
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
+  63) Class : CLASS CONSTANT "<" Expression _ Terminator Expressions END
 
-  ELSE          shift, and go to state 114
   NEWLINE       shift, and go to state 5
-  END           shift, and go to state 113
+  "."           shift, and go to state 37
+  "*"           shift, and go to state 48
+  "/"           shift, and go to state 49
+  "+"           shift, and go to state 46
+  "-"           shift, and go to state 47
+  ">"           shift, and go to state 42
+  ">="          shift, and go to state 43
+  "<"           shift, and go to state 44
+  "<="          shift, and go to state 45
+  "=="          shift, and go to state 40
+  "!="          shift, and go to state 41
+  "&&"          shift, and go to state 39
+  "||"          shift, and go to state 38
   ";"           shift, and go to state 6
 
-  Terminator    go to state 34
+  Terminator    go to state 113
 
 state 103
 
    4) Expressions : Expressions _ Terminator Expression
    5) Expressions : Expressions _ Terminator
-  66) While : WHILE Expression Terminator Expressions _ END
+  64) Module : MODULE CONSTANT Terminator Expressions _ END
 
+  NEWLINE       shift, and go to state 5
+  END           shift, and go to state 114
+  ";"           shift, and go to state 6
+
+  Terminator    go to state 36
+
+state 104
+
+   4) Expressions : Expressions _ Terminator Expression
+   5) Expressions : Expressions _ Terminator
+  66) If : IF Expression Terminator Expressions _ END
+  67) If : IF Expression Terminator Expressions _ ELSE Terminator Expressions END
+
+  ELSE          shift, and go to state 116
   NEWLINE       shift, and go to state 5
   END           shift, and go to state 115
   ";"           shift, and go to state 6
 
-  Terminator    go to state 34
-
-state 104
-
-  29) Call : Expression _ "." IDENTIFIER
-  30) Call : Expression _ "." IDENTIFIER ArgListWithParens
-  34) ArgList : ArgList "," Expression _
-  35) Operator : Expression _ "||" Expression
-  36) Operator : Expression _ "&&" Expression
-  37) Operator : Expression _ "==" Expression
-  38) Operator : Expression _ "!=" Expression
-  39) Operator : Expression _ ">" Expression
-  40) Operator : Expression _ ">=" Expression
-  41) Operator : Expression _ "<" Expression
-  42) Operator : Expression _ "<=" Expression
-  43) Operator : Expression _ "+" Expression
-  44) Operator : Expression _ "-" Expression
-  45) Operator : Expression _ "*" Expression
-  46) Operator : Expression _ "/" Expression
-
-  "."           shift, and go to state 35
-  "*"           shift, and go to state 46
-  "/"           shift, and go to state 47
-  "+"           shift, and go to state 44
-  "-"           shift, and go to state 45
-  ">"           shift, and go to state 40
-  ">="          shift, and go to state 41
-  "<"           shift, and go to state 42
-  "<="          shift, and go to state 43
-  "=="          shift, and go to state 38
-  "!="          shift, and go to state 39
-  "&&"          shift, and go to state 37
-  "||"          shift, and go to state 36
-  $default      reduce using rule 34 (ArgList)
-
+  Terminator    go to state 36
 
 state 105
 
-  49) Def : DEF IDENTIFIER Terminator Expressions END _
+   4) Expressions : Expressions _ Terminator Expression
+   5) Expressions : Expressions _ Terminator
+  68) While : WHILE Expression Terminator Expressions _ END
 
-  $default      reduce using rule 49 (Def)
+  NEWLINE       shift, and go to state 5
+  END           shift, and go to state 117
+  ";"           shift, and go to state 6
 
+  Terminator    go to state 36
 
 state 106
 
-  50) Def : DEF IDENTIFIER "(" ParamList ")" _ Terminator Expressions END
+  31) Call : Expression _ "." IDENTIFIER
+  32) Call : Expression _ "." IDENTIFIER ArgListWithParens
+  36) ArgList : ArgList "," Expression _
+  37) Operator : Expression _ "||" Expression
+  38) Operator : Expression _ "&&" Expression
+  39) Operator : Expression _ "==" Expression
+  40) Operator : Expression _ "!=" Expression
+  41) Operator : Expression _ ">" Expression
+  42) Operator : Expression _ ">=" Expression
+  43) Operator : Expression _ "<" Expression
+  44) Operator : Expression _ "<=" Expression
+  45) Operator : Expression _ "+" Expression
+  46) Operator : Expression _ "-" Expression
+  47) Operator : Expression _ "*" Expression
+  48) Operator : Expression _ "/" Expression
 
-  NEWLINE       shift, and go to state 5
-  ";"           shift, and go to state 6
+  "."           shift, and go to state 37
+  "*"           shift, and go to state 48
+  "/"           shift, and go to state 49
+  "+"           shift, and go to state 46
+  "-"           shift, and go to state 47
+  ">"           shift, and go to state 42
+  ">="          shift, and go to state 43
+  "<"           shift, and go to state 44
+  "<="          shift, and go to state 45
+  "=="          shift, and go to state 40
+  "!="          shift, and go to state 41
+  "&&"          shift, and go to state 39
+  "||"          shift, and go to state 38
+  $default      reduce using rule 36 (ArgList)
 
-  Terminator    go to state 116
 
 state 107
 
-  59) ParamList : ParamList "," _ IDENTIFIER
+  51) Def : DEF IDENTIFIER Terminator Expressions END _
 
-  IDENTIFIER    shift, and go to state 117
+  $default      reduce using rule 51 (Def)
 
 
 state 108
 
-  51) Def : DEF SingletonObject "." IDENTIFIER "(" _ ParamList ")" Terminator Expressions END
+  52) Def : DEF IDENTIFIER "(" ParamList ")" _ Terminator Expressions END
 
-  IDENTIFIER    shift, and go to state 96
-  $default      reduce using rule 57 (ParamList)
+  NEWLINE       shift, and go to state 5
+  ";"           shift, and go to state 6
 
-  ParamList     go to state 118
+  Terminator    go to state 118
 
 state 109
 
-  52) Def : DEF SingletonObject "." IDENTIFIER Terminator _ Expressions END
+  61) ParamList : ParamList "," _ IDENTIFIER
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NEWLINE       shift, and go to state 5
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  ";"           shift, and go to state 6
-  "("           shift, and go to state 18
+  IDENTIFIER    shift, and go to state 119
 
-  Expression    go to state 3
-  Expressions   go to state 119
-  Terminator    go to state 4
-  Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
 
 state 110
 
-  60) Class : CLASS CONSTANT Terminator Expressions END _
+  53) Def : DEF SingletonObject "." IDENTIFIER "(" _ ParamList ")" Terminator Expressions END
 
-  $default      reduce using rule 60 (Class)
+  IDENTIFIER    shift, and go to state 98
+  $default      reduce using rule 59 (ParamList)
 
+  ParamList     go to state 120
 
 state 111
 
-  61) Class : CLASS CONSTANT "<" Expression Terminator _ Expressions END
+  54) Def : DEF SingletonObject "." IDENTIFIER Terminator _ Expressions END
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
   NEWLINE       shift, and go to state 5
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
   ";"           shift, and go to state 6
-  "("           shift, and go to state 18
+  "("           shift, and go to state 19
 
   Expression    go to state 3
-  Expressions   go to state 120
+  Expressions   go to state 121
   Terminator    go to state 4
   Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
 
 state 112
 
-  62) Module : MODULE CONSTANT Terminator Expressions END _
+  62) Class : CLASS CONSTANT Terminator Expressions END _
 
-  $default      reduce using rule 62 (Module)
+  $default      reduce using rule 62 (Class)
 
 
 state 113
 
-  64) If : IF Expression Terminator Expressions END _
+  63) Class : CLASS CONSTANT "<" Expression Terminator _ Expressions END
 
-  $default      reduce using rule 64 (If)
-
-
-state 114
-
-  65) If : IF Expression Terminator Expressions ELSE _ Terminator Expressions END
-
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
   NEWLINE       shift, and go to state 5
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
   ";"           shift, and go to state 6
-
-  Terminator    go to state 121
-
-state 115
-
-  66) While : WHILE Expression Terminator Expressions END _
-
-  $default      reduce using rule 66 (While)
-
-
-state 116
-
-  50) Def : DEF IDENTIFIER "(" ParamList ")" Terminator _ Expressions END
-
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NEWLINE       shift, and go to state 5
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  ";"           shift, and go to state 6
-  "("           shift, and go to state 18
+  "("           shift, and go to state 19
 
   Expression    go to state 3
   Expressions   go to state 122
   Terminator    go to state 4
   Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
+
+state 114
+
+  64) Module : MODULE CONSTANT Terminator Expressions END _
+
+  $default      reduce using rule 64 (Module)
+
+
+state 115
+
+  66) If : IF Expression Terminator Expressions END _
+
+  $default      reduce using rule 66 (If)
+
+
+state 116
+
+  67) If : IF Expression Terminator Expressions ELSE _ Terminator Expressions END
+
+  NEWLINE       shift, and go to state 5
+  ";"           shift, and go to state 6
+
+  Terminator    go to state 123
 
 state 117
 
-  59) ParamList : ParamList "," IDENTIFIER _
+  68) While : WHILE Expression Terminator Expressions END _
 
-  $default      reduce using rule 59 (ParamList)
+  $default      reduce using rule 68 (While)
 
 
 state 118
 
-  51) Def : DEF SingletonObject "." IDENTIFIER "(" ParamList _ ")" Terminator Expressions END
-  59) ParamList : ParamList _ "," IDENTIFIER
+  52) Def : DEF IDENTIFIER "(" ParamList ")" Terminator _ Expressions END
 
-  ","           shift, and go to state 107
-  ")"           shift, and go to state 123
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NEWLINE       shift, and go to state 5
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  ";"           shift, and go to state 6
+  "("           shift, and go to state 19
 
+  Expression    go to state 3
+  Expressions   go to state 124
+  Terminator    go to state 4
+  Self          go to state 7
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
 
 state 119
 
-   4) Expressions : Expressions _ Terminator Expression
-   5) Expressions : Expressions _ Terminator
-  52) Def : DEF SingletonObject "." IDENTIFIER Terminator Expressions _ END
+  61) ParamList : ParamList "," IDENTIFIER _
 
-  NEWLINE       shift, and go to state 5
-  END           shift, and go to state 124
-  ";"           shift, and go to state 6
+  $default      reduce using rule 61 (ParamList)
 
-  Terminator    go to state 34
 
 state 120
 
-   4) Expressions : Expressions _ Terminator Expression
-   5) Expressions : Expressions _ Terminator
-  61) Class : CLASS CONSTANT "<" Expression Terminator Expressions _ END
+  53) Def : DEF SingletonObject "." IDENTIFIER "(" ParamList _ ")" Terminator Expressions END
+  61) ParamList : ParamList _ "," IDENTIFIER
 
-  NEWLINE       shift, and go to state 5
-  END           shift, and go to state 125
-  ";"           shift, and go to state 6
+  ","           shift, and go to state 109
+  ")"           shift, and go to state 125
 
-  Terminator    go to state 34
 
 state 121
 
-  65) If : IF Expression Terminator Expressions ELSE Terminator _ Expressions END
+   4) Expressions : Expressions _ Terminator Expression
+   5) Expressions : Expressions _ Terminator
+  54) Def : DEF SingletonObject "." IDENTIFIER Terminator Expressions _ END
 
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
   NEWLINE       shift, and go to state 5
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
+  END           shift, and go to state 126
   ";"           shift, and go to state 6
-  "("           shift, and go to state 18
 
-  Expression    go to state 3
-  Expressions   go to state 126
-  Terminator    go to state 4
-  Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
+  Terminator    go to state 36
 
 state 122
 
    4) Expressions : Expressions _ Terminator Expression
    5) Expressions : Expressions _ Terminator
-  50) Def : DEF IDENTIFIER "(" ParamList ")" Terminator Expressions _ END
+  63) Class : CLASS CONSTANT "<" Expression Terminator Expressions _ END
 
   NEWLINE       shift, and go to state 5
   END           shift, and go to state 127
   ";"           shift, and go to state 6
 
-  Terminator    go to state 34
+  Terminator    go to state 36
 
 state 123
 
-  51) Def : DEF SingletonObject "." IDENTIFIER "(" ParamList ")" _ Terminator Expressions END
+  67) If : IF Expression Terminator Expressions ELSE Terminator _ Expressions END
 
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
   NEWLINE       shift, and go to state 5
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
   ";"           shift, and go to state 6
+  "("           shift, and go to state 19
 
-  Terminator    go to state 128
+  Expression    go to state 3
+  Expressions   go to state 128
+  Terminator    go to state 4
+  Self          go to state 7
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
 
 state 124
 
-  52) Def : DEF SingletonObject "." IDENTIFIER Terminator Expressions END _
-
-  $default      reduce using rule 52 (Def)
-
-
-state 125
-
-  61) Class : CLASS CONSTANT "<" Expression Terminator Expressions END _
-
-  $default      reduce using rule 61 (Class)
-
-
-state 126
-
    4) Expressions : Expressions _ Terminator Expression
    5) Expressions : Expressions _ Terminator
-  65) If : IF Expression Terminator Expressions ELSE Terminator Expressions _ END
+  52) Def : DEF IDENTIFIER "(" ParamList ")" Terminator Expressions _ END
 
   NEWLINE       shift, and go to state 5
   END           shift, and go to state 129
   ";"           shift, and go to state 6
 
-  Terminator    go to state 34
+  Terminator    go to state 36
+
+state 125
+
+  53) Def : DEF SingletonObject "." IDENTIFIER "(" ParamList ")" _ Terminator Expressions END
+
+  NEWLINE       shift, and go to state 5
+  ";"           shift, and go to state 6
+
+  Terminator    go to state 130
+
+state 126
+
+  54) Def : DEF SingletonObject "." IDENTIFIER Terminator Expressions END _
+
+  $default      reduce using rule 54 (Def)
+
 
 state 127
 
-  50) Def : DEF IDENTIFIER "(" ParamList ")" Terminator Expressions END _
+  63) Class : CLASS CONSTANT "<" Expression Terminator Expressions END _
 
-  $default      reduce using rule 50 (Def)
+  $default      reduce using rule 63 (Class)
 
 
 state 128
 
-  51) Def : DEF SingletonObject "." IDENTIFIER "(" ParamList ")" Terminator _ Expressions END
-
-  IF            shift, and go to state 31
-  WHILE         shift, and go to state 32
-  DEF           shift, and go to state 27
-  CLASS         shift, and go to state 28
-  NEWLINE       shift, and go to state 5
-  NUMBER        shift, and go to state 20
-  STRING        shift, and go to state 21
-  TRUE          shift, and go to state 22
-  FALSE         shift, and go to state 23
-  NIL           shift, and go to state 24
-  IDENTIFIER    shift, and go to state 25
-  CONSTANT      shift, and go to state 30
-  MODULE        shift, and go to state 29
-  SELF          shift, and go to state 19
-  "!"           shift, and go to state 26
-  ";"           shift, and go to state 6
-  "("           shift, and go to state 18
-
-  Expression    go to state 3
-  Expressions   go to state 130
-  Terminator    go to state 4
-  Self          go to state 7
-  Literal       go to state 8
-  Call          go to state 9
-  Operator      go to state 10
-  Constant      go to state 11
-  Assign        go to state 12
-  Def           go to state 13
-  Class         go to state 14
-  Module        go to state 15
-  If            go to state 16
-  While         go to state 17
-
-state 129
-
-  65) If : IF Expression Terminator Expressions ELSE Terminator Expressions END _
-
-  $default      reduce using rule 65 (If)
-
-
-state 130
-
    4) Expressions : Expressions _ Terminator Expression
    5) Expressions : Expressions _ Terminator
-  51) Def : DEF SingletonObject "." IDENTIFIER "(" ParamList ")" Terminator Expressions _ END
+  67) If : IF Expression Terminator Expressions ELSE Terminator Expressions _ END
 
   NEWLINE       shift, and go to state 5
   END           shift, and go to state 131
   ";"           shift, and go to state 6
 
-  Terminator    go to state 34
+  Terminator    go to state 36
+
+state 129
+
+  52) Def : DEF IDENTIFIER "(" ParamList ")" Terminator Expressions END _
+
+  $default      reduce using rule 52 (Def)
+
+
+state 130
+
+  53) Def : DEF SingletonObject "." IDENTIFIER "(" ParamList ")" Terminator _ Expressions END
+
+  IF            shift, and go to state 33
+  WHILE         shift, and go to state 34
+  DEF           shift, and go to state 29
+  CLASS         shift, and go to state 30
+  NEWLINE       shift, and go to state 5
+  NUMBER        shift, and go to state 22
+  STRING        shift, and go to state 23
+  TRUE          shift, and go to state 24
+  FALSE         shift, and go to state 25
+  NIL           shift, and go to state 26
+  IDENTIFIER    shift, and go to state 27
+  CONSTANT      shift, and go to state 32
+  MODULE        shift, and go to state 31
+  SELF          shift, and go to state 20
+  SUPER         shift, and go to state 21
+  "!"           shift, and go to state 28
+  ";"           shift, and go to state 6
+  "("           shift, and go to state 19
+
+  Expression    go to state 3
+  Expressions   go to state 132
+  Terminator    go to state 4
+  Self          go to state 7
+  Super         go to state 8
+  Literal       go to state 9
+  Call          go to state 10
+  Operator      go to state 11
+  Constant      go to state 12
+  Assign        go to state 13
+  Def           go to state 14
+  Class         go to state 15
+  Module        go to state 16
+  If            go to state 17
+  While         go to state 18
 
 state 131
 
-  51) Def : DEF SingletonObject "." IDENTIFIER "(" ParamList ")" Terminator Expressions END _
+  67) If : IF Expression Terminator Expressions ELSE Terminator Expressions END _
 
-  $default      reduce using rule 51 (Def)
+  $default      reduce using rule 67 (If)
+
+
+state 132
+
+   4) Expressions : Expressions _ Terminator Expression
+   5) Expressions : Expressions _ Terminator
+  53) Def : DEF SingletonObject "." IDENTIFIER "(" ParamList ")" Terminator Expressions _ END
+
+  NEWLINE       shift, and go to state 5
+  END           shift, and go to state 133
+  ";"           shift, and go to state 6
+
+  Terminator    go to state 36
+
+state 133
+
+  53) Def : DEF SingletonObject "." IDENTIFIER "(" ParamList ")" Terminator Expressions END _
+
+  $default      reduce using rule 53 (Def)
 

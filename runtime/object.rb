@@ -11,12 +11,12 @@ class RObject
   end
 
   # Call a method on the object.
-  def call(method_name, arguments = [])
+  def call(method_name, arguments = [], klass = runtime_class)
     # Like a typical Class-based runtime model, we store methods in the class of the object.
-    if (method = runtime_class.lookup(method_name.to_sym))
-      method.call self, arguments
+    if (method = klass.lookup(method_name.to_sym))
+      method.call self, arguments, klass
     else
-      self.call :method_missing, [method_name] + arguments
+      self.call :method_missing, [method_name] + arguments, klass
     end
   end
   
@@ -30,7 +30,7 @@ class RObject
 
   def extend_modules(modules)
     modules.each do |mOdule|    # Given 'module' is a reserved word in Ruby, we will use 'mOdule' instead.
-      class_name                        = "<Anonymous class for object '#{to_s}' and module '#{mOdule.name}'>"
+      class_name                        = "<Anonymous class for object '#{to_s}' and module '#{mOdule.to_s}'>"
       ghost_singleton                   = RClass.new(class_name, :parent => singleton_class.parent, :is_ghost => true)
       ghost_singleton.associated_module = mOdule
       singleton_class.parent            = ghost_singleton
@@ -38,6 +38,10 @@ class RObject
   end
   
   def to_s
-    object_id
+    ruby_value || object_id
+  end
+
+  def internal_method_missing(name, args)
+    raise "NoMethodError: undefined method '#{name}' for #{to_s}:#{call(:klass).name}"
   end
 end

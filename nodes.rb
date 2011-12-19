@@ -57,3 +57,5 @@ class IfNode < Struct.new(:condition, :body, :else_body); end
 class WhileNode < Struct.new(:condition, :body); end
 
 class SelfNode; end
+
+class SuperNode; end
