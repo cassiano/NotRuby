@@ -162,6 +162,12 @@ class SuperNode
     raise('Invalid use of super (no method currently in execution)') unless context.current_method_and_arguments
     raise('Infinite recursion detected (super would call itself)') if context.current_class == context.current_class.parent
 
-    context.current_self.call *context.current_method_and_arguments, context.current_class.parent
+    if arguments.empty?
+      context.current_self.call *context.current_method_and_arguments, context.current_class.parent
+    else
+      evaluated_arguments = arguments.map { |arg| arg.eval(context) }
+      
+      context.current_self.call context.current_method_and_arguments[0], evaluated_arguments, context.current_class.parent
+    end
   end
 end

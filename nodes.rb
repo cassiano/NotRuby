@@ -58,4 +58,4 @@ class WhileNode < Struct.new(:condition, :body); end
 
 class SelfNode; end
 
-class SuperNode; end
+class SuperNode < Struct.new(:arguments); end

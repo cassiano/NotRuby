@@ -75,7 +75,11 @@ rule
     SELF                          { result = SelfNode.new }
 
   Super:
-    SUPER                         { result = SuperNode.new }
+    # super
+    SUPER                         { result = SuperNode.new([]) }
+    # super(1, 2, 3)
+  | SUPER ArgListWithParens       { result = SuperNode.new(val[1]) }
+  ;
   
   # All hard-coded values
   Literal:
