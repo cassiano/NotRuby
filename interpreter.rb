@@ -171,3 +171,12 @@ class SuperNode
     end
   end
 end
+
+class SingletonClassOperatorNode
+  def eval(context)
+    evaluated_object  = object.eval(context)
+    singleton_class   = evaluated_object.singleton_class
+    
+    body.eval Context.new(singleton_class, singleton_class)
+  end
+end

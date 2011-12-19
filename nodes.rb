@@ -59,3 +59,5 @@ class WhileNode < Struct.new(:condition, :body); end
 class SelfNode; end
 
 class SuperNode < Struct.new(:arguments); end
+
+class SingletonClassOperatorNode < Struct.new(:object, :body); end

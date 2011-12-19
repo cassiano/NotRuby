@@ -366,4 +366,20 @@ class InterpreterTest < Test::Unit::TestCase
     
     assert_equal 31, Interpreter.new.eval(code).ruby_value
   end
+
+  def test_class_less_than_less_than_object
+    code = <<-CODE
+      class A14
+        class << self
+          def m
+            14
+          end
+        end
+      end
+      
+      A14.m
+    CODE
+    
+    assert_equal 14, Interpreter.new.eval(code).ruby_value
+  end
 end

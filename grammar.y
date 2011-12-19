@@ -68,6 +68,7 @@ rule
   | Module
   | If
   | While
+  | SingletonClassOperator
   | '(' Expression ')'    { result = val[1] }
   ;
   
@@ -204,6 +205,12 @@ rule
     WHILE Expression Terminator
       Expressions
     END                                 { result = WhileNode.new(val[1], val[3]) }
+  ;
+  
+  SingletonClassOperator:
+    CLASS "<<" Expression Terminator
+      Expressions
+    END                                 { result = SingletonClassOperatorNode.new(val[2], val[4]) }
   ;
 end
 
