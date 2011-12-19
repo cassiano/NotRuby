@@ -11,12 +11,12 @@ class RObject
   end
 
   # Call a method on the object.
-  def call(method_name, arguments = [], klass = runtime_class)
+  def call(method_name, arguments = [], initial_class = runtime_class)
     # Like a typical Class-based runtime model, we store methods in the class of the object.
-    if (method = klass.lookup(method_name.to_sym))
-      method.call self, arguments, klass
+    if (method = initial_class.lookup(method_name.to_sym))
+      method.call self, arguments, initial_class
     else
-      self.call :method_missing, [method_name] + arguments, klass
+      self.call :method_missing, [method_name] + arguments, initial_class
     end
   end
   
@@ -41,7 +41,7 @@ class RObject
     ruby_value || object_id
   end
 
-  def internal_method_missing(name, args)
+  def default_method_missing(name, args)
     raise "NoMethodError: undefined method '#{name}' for #{to_s}:#{call(:klass).name}"
   end
 end

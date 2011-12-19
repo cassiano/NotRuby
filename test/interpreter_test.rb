@@ -120,6 +120,20 @@ class InterpreterTest < Test::Unit::TestCase
     assert_equal 2, Interpreter.new.eval(code).ruby_value
   end
 
+  def test_singleton_method
+    code = <<-CODE
+      a = 1
+      
+      def a.m
+        2
+      end
+      
+      a.m
+    CODE
+    
+    assert_equal 2, Interpreter.new.eval(code).ruby_value
+  end
+
   def test_inheritance_of_singleton_method
     code = <<-CODE
       class A3
@@ -332,5 +346,4 @@ class InterpreterTest < Test::Unit::TestCase
       Interpreter.new.eval(code)
     end
   end
-
 end

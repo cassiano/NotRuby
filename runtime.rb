@@ -90,7 +90,7 @@ Runtime[:Object].runtime_methods.update(
 
   # Default :method_missing implementation.
   :method_missing =>  proc do |receiver, arguments|
-                        receiver.internal_method_missing arguments[0], arguments[1..-1]
+                        receiver.default_method_missing arguments[0], arguments[1..-1]
                       end,
 
   # print('hi')
