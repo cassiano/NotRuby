@@ -367,7 +367,7 @@ class InterpreterTest < Test::Unit::TestCase
     assert_equal 31, Interpreter.new.eval(code).ruby_value
   end
 
-  def test_class_less_than_less_than_object
+  def test_class_less_than_less_than_object_current_class
     code = <<-CODE
       class A14
         class << self
@@ -381,5 +381,23 @@ class InterpreterTest < Test::Unit::TestCase
     CODE
     
     assert_equal 14, Interpreter.new.eval(code).ruby_value
+  end
+
+  def test_class_less_than_less_than_object_current_self
+    code = <<-CODE
+      class Object
+        def singleton_klass
+          class << self
+            self
+          end
+        end
+      end
+      
+      class A
+        self
+      end
+    CODE
+    
+    assert_equal Interpreter.new.eval(code).call(:singleton_class), Interpreter.new.eval(code).call(:singleton_klass)
   end
 end

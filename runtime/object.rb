@@ -35,6 +35,8 @@ class RObject
       ghost_singleton.associated_module = mOdule
       singleton_class.parent            = ghost_singleton
     end
+
+    self
   end
   
   def to_s

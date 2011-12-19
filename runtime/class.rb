@@ -67,6 +67,8 @@ class RClass < RObject
       ghost_parent.associated_module  = mOdule
       self.parent                     = ghost_parent
     end
+    
+    self
   end
 
   def to_s
