@@ -346,4 +346,24 @@ class InterpreterTest < Test::Unit::TestCase
       Interpreter.new.eval(code)
     end
   end
+
+  def test_super_with_parameters
+    code = <<-CODE
+      class A13
+        def m(p1, p2)
+          p1 + p2
+        end
+      end
+        
+      class B13 < A13
+        def m(p1, p2)
+          super(15, 16)
+        end
+      end
+      
+      B13.new.m(13, 14)
+    CODE
+    
+    assert_equal 31, Interpreter.new.eval(code).ruby_value
+  end
 end
