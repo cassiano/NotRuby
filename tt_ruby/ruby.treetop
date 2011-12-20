@@ -1,0 +1,81 @@
+grammar Ruby
+  rule root
+    expressions
+  end
+  
+  rule expressions
+    expression others:(terminator expression)* <ExpressionsNode>
+  end
+  
+  rule expression
+    literal
+    /
+    self
+    /
+    assignment
+  end
+  
+  rule terminator
+    newline
+    /
+    ';'
+  end
+  
+  rule newline
+    "\n"
+  end
+  
+  rule literal
+    number
+    /
+    string
+    /
+    true
+    /
+    false
+    /
+    nil
+  end
+  
+  rule number
+    '-'? [1-9] [0-9]* <NumberNode>
+  end
+  
+  rule string
+    string_with_double_quotes
+    /
+    string_with_single_quotes
+  end
+  
+  rule string_with_double_quotes
+    '"' (!'"' .)* '"' <StringNode>
+  end
+
+  rule string_with_single_quotes
+    "'" (!"'" .)* "'" <StringNode>
+  end
+  
+  rule true
+    'true'  <TrueNode>
+  end
+  
+  rule false
+    'false' <FalseNode>
+  end
+  
+  rule nil
+    'nil'   <NilNode>
+  end
+
+  rule self
+    'self'  <SelfNode>
+  end
+  
+  rule assignment
+    identifier '=' expression   <AssignmentNode>
+  end
+  
+  rule identifier
+    [a-z] [a-zA-Z_]*    <IdentifierNode>
+  end
+end
