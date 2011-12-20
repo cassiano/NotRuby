@@ -97,7 +97,7 @@ rule
     IDENTIFIER                    { result = CallNode.new(nil, val[0], []) }
     # method(1, 2, 3)
   | IDENTIFIER ArgListWithParens  { result = CallNode.new(nil, val[0], val[1]) }
-    # receiver.class (special method name, given it's a keyword)
+    # receiver.method
   | Expression '.' IDENTIFIER     { result = CallNode.new(val[0], val[2], []) }
     # receiver.method(1, 2, 3)
   | Expression '.' IDENTIFIER
