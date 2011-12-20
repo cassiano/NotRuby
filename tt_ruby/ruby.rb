@@ -57,7 +57,7 @@ class IdentifierNode < Treetop::Runtime::SyntaxNode
   end
 end
 
-Context = Struct.new(:current_self, :locals)
-@context = Context.new(nil, {})
+Context = Struct.new(:current_self, :current_class, :locals, :constants)
+@context = Context.new(self, self.class, {}, {})
 
 @parser = RubyParser.new

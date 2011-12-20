@@ -4,7 +4,7 @@ grammar Ruby
   end
   
   rule expressions
-    expression others:(terminator expression)* <ExpressionsNode>
+    spaces expression spaces others:(terminator spaces expression spaces)* <ExpressionsNode>
   end
   
   rule expression
@@ -13,6 +13,10 @@ grammar Ruby
     self
     /
     assignment
+  end
+  
+  rule spaces
+    ' '*
   end
   
   rule terminator
@@ -72,7 +76,7 @@ grammar Ruby
   end
   
   rule assignment
-    identifier '=' expression   <AssignmentNode>
+    identifier spaces '=' spaces expression   <AssignmentNode>
   end
   
   rule identifier
