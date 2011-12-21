@@ -66,18 +66,18 @@ class CallNode < Treetop::Runtime::SyntaxNode
   # receiver:(identifier '.')? method:identifier param_list?  <CallNode>
   def eval(context)
     # debugger
-    receiver1 = receiver.identifier.eval(context) if receiver.respond_to?(:identifier)
-    method1   = method.eval(context)
+    evaluated_receiver  = receiver.identifier.eval(context) if receiver.respond_to?(:identifier)
+    evaluated_method    = method.eval(context)
     
-    if !receiver1 && !params.instance_of?(ParamListNode) && context.locals.has_key?(method1)
+    if !evaluated_receiver && !params.instance_of?(ParamListNode) && context.locals.has_key?(evaluated_method)
       # Local variable.
-      context.locals[method1]
+      context.locals[evaluated_method]
     else
       # Method call.
-      object          = receiver1 || context.current_self
+      object          = evaluated_receiver || context.current_self
       evaluated_parms = params.eval(context) rescue []
       
-      raise "No way (yet) to call method '#{method1}' on object '#{object}' with parameters [#{evaluated_parms.join(', ')}]"
+      raise "No way (yet) to call method '#{evaluated_method}' on object '#{object}' with parameters [#{evaluated_parms.join(', ')}]"
     end
   end
 end
