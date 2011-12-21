@@ -4,7 +4,7 @@ grammar Ruby
   end
   
   rule expressions
-    spaces expression spaces others:(terminator spaces expression spaces)* <ExpressionsNode>
+    expression others:(terminator expression)* <ExpressionsNode>
   end
   
   rule expression
@@ -13,11 +13,13 @@ grammar Ruby
     self
     /
     assignment
+    /
+    call
   end
   
-  rule spaces
-    ' '*
-  end
+  # rule spaces
+  #   ' '*
+  # end
   
   rule terminator
     newline
@@ -76,10 +78,18 @@ grammar Ruby
   end
   
   rule assignment
-    identifier spaces '=' spaces expression   <AssignmentNode>
+    identifier '=' expression   <AssignmentNode>
   end
   
+  rule call
+    receiver:(identifier '.')? method:identifier params:param_list?  <CallNode>
+  end
+  
+  rule param_list
+    '(' expression others:(',' expression)* ')' <ParamListNode>
+  end
+
   rule identifier
-    [a-z] [a-zA-Z_]*    <IdentifierNode>
+    [a-z] [a-zA-Z0-9_]*  <IdentifierNode>
   end
 end

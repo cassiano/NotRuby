@@ -1,7 +1,6 @@
 require 'polyglot'
 require 'treetop'
-
-Treetop.load 'ruby'
+require 'ruby-debug'
 
 class NumberNode < Treetop::Runtime::SyntaxNode
   def eval(context)
@@ -57,7 +56,34 @@ class IdentifierNode < Treetop::Runtime::SyntaxNode
   end
 end
 
-Context = Struct.new(:current_self, :current_class, :locals, :constants)
-@context = Context.new(self, self.class, {}, {})
+class ParamListNode < Treetop::Runtime::SyntaxNode
+  def eval(context)
+    [expression.eval(context)] + others.elements.map { |e| e.expression.eval(context) }
+  end
+end
 
-@parser = RubyParser.new
+class CallNode < Treetop::Runtime::SyntaxNode
+  # receiver:(identifier '.')? method:identifier param_list?  <CallNode>
+  def eval(context)
+    # debugger
+    receiver1 = receiver.identifier.eval(context) if receiver.respond_to?(:identifier)
+    method1   = method.eval(context)
+    
+    if !receiver1 && !params.instance_of?(ParamListNode) && context.locals.has_key?(method1)
+      # Local variable.
+      context.locals[method1]
+    else
+      # Method call.
+      object          = receiver1 || context.current_self
+      evaluated_parms = params.eval(context) rescue []
+      
+      raise "No way (yet) to call method '#{method1}' on object '#{object}' with parameters [#{evaluated_parms.join(', ')}]"
+    end
+  end
+end
+
+Treetop.load 'ruby'
+
+Context   = Struct.new(:current_self, :current_class, :locals, :constants)
+@context  = Context.new(self, self.class, {}, {})
+@parser   = RubyParser.new
