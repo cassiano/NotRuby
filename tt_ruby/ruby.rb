@@ -58,24 +58,27 @@ end
 
 class ParamListNode < Treetop::Runtime::SyntaxNode
   def eval(context)
-    [expression.eval(context)] + others.elements.map { |e| e.expression.eval(context) }
+    unless optional_params.empty?
+      ([optional_params] + optional_params.others.elements).map { |e| e.expression.eval(context) }
+    else
+      []
+    end
   end
 end
 
 class CallNode < Treetop::Runtime::SyntaxNode
-  # receiver:(identifier '.')? method:identifier param_list?  <CallNode>
   def eval(context)
     # debugger
-    evaluated_receiver  = receiver.identifier.eval(context) if receiver.respond_to?(:identifier)
+    evaluated_receiver  = receiver.identifier.eval(context) unless receiver.empty?
     evaluated_method    = method.eval(context)
     
-    if !evaluated_receiver && !params.instance_of?(ParamListNode) && context.locals.has_key?(evaluated_method)
+    if !evaluated_receiver && params.empty? && context.locals.has_key?(evaluated_method)
       # Local variable.
       context.locals[evaluated_method]
     else
       # Method call.
       object          = evaluated_receiver || context.current_self
-      evaluated_parms = params.eval(context) rescue []
+      evaluated_parms = !params.empty? ? params.eval(context) : []
       
       raise "No way (yet) to call method '#{evaluated_method}' on object '#{object}' with parameters [#{evaluated_parms.join(', ')}]"
     end

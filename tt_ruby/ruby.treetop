@@ -48,16 +48,8 @@ grammar Ruby
   end
   
   rule string
-    string_with_double_quotes
-    /
-    string_with_single_quotes
-  end
-  
-  rule string_with_double_quotes
     '"' (!'"' .)* '"' <StringNode>
-  end
-
-  rule string_with_single_quotes
+    /
     "'" (!"'" .)* "'" <StringNode>
   end
   
@@ -86,7 +78,7 @@ grammar Ruby
   end
   
   rule param_list
-    '(' expression others:(',' expression)* ')' <ParamListNode>
+    '(' optional_params:(expression others:(',' expression)*)? ')' <ParamListNode>
   end
 
   rule identifier
