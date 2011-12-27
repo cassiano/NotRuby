@@ -1,16 +1,17 @@
 require 'polyglot'
 require 'treetop'
 require 'ruby-debug'
+require '../runtime'
 
 class NumberNode < Treetop::Runtime::SyntaxNode
   def eval(context)
-    text_value.to_i
+    context[:Number].new_with_value text_value.to_i
   end
 end
 
 class StringNode < Treetop::Runtime::SyntaxNode
   def eval(context)
-    text_value[1..-2]
+    context[:String].new_with_value text_value[1..-2]
   end
 end
 
@@ -52,7 +53,13 @@ end
 
 class IdentifierNode < Treetop::Runtime::SyntaxNode
   def eval(context)
-    text_value.to_sym
+    name
+  end
+end
+
+class ConstantNode < Treetop::Runtime::SyntaxNode
+  def eval(context)
+    context[name] || raise("NameError: uninitialized constant #{name}")
   end
 end
 
@@ -68,25 +75,45 @@ end
 
 class CallNode < Treetop::Runtime::SyntaxNode
   def eval(context)
-    # debugger
-    evaluated_receiver  = receiver.identifier.eval(context) unless receiver.empty?
-    evaluated_method    = method.eval(context)
+    evaluated_method = method.eval(context)
     
-    if !evaluated_receiver && params.empty? && context.locals.has_key?(evaluated_method)
+    if !receiver && params.empty? && context.locals.has_key?(evaluated_method)
       # Local variable.
       context.locals[evaluated_method]
     else
       # Method call.
-      object          = evaluated_receiver || context.current_self
+      object          = receiver ? (receiver.is_a?(ConstantNode) ? context[receiver.eval(context).name] : context.locals[receiver.eval(context)]) : context.current_self
       evaluated_parms = !params.empty? ? params.eval(context) : []
       
-      raise "No way (yet) to call method '#{evaluated_method}' on object '#{object}' with parameters [#{evaluated_parms.join(', ')}]"
+      object.call evaluated_method, evaluated_parms
     end
+  end
+end
+
+class ClassNode < Treetop::Runtime::SyntaxNode
+  def eval(context)
+    unless (rclass = context[name])   # Class was not defined.
+      evaluated_parent  = parent && parent.eval(context)
+      rclass            = evaluated_parent ? 
+                            RClass.new(name, :parent => evaluated_parent) : 
+                            RClass.new(name)
+      context[name]     = rclass
+    end
+    
+    body.eval Context.new(rclass, rclass)
+  end
+end
+
+class DefNode < Treetop::Runtime::SyntaxNode
+  def eval(context)
+    context.current_class.runtime_methods[name] = RMethod.new(name, params, body)
+    
+    Runtime[:nil] 
   end
 end
 
 Treetop.load 'ruby'
 
-Context   = Struct.new(:current_self, :current_class, :locals, :constants)
-@context  = Context.new(self, self.class, {}, {})
+# Context   = Struct.new(:current_self, :current_class, :locals, :constants)
+# @context  = Context.new(self, self.class, {}, {})
 @parser   = RubyParser.new

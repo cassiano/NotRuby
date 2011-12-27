@@ -4,7 +4,7 @@ grammar Ruby
   end
   
   rule expressions
-    expression others:(terminator expression)* <ExpressionsNode>
+    expression others:(terminator expression)*  <ExpressionsNode>
   end
   
   rule expression
@@ -12,14 +12,24 @@ grammar Ruby
     /
     self
     /
+    class
+    /
+    def
+    /
     assignment
     /
     call
+    /
+    constant
   end
   
-  # rule spaces
-  #   ' '*
-  # end
+  rule opt_spc
+    ' '*
+  end
+
+  rule spc
+    ' '+
+  end
   
   rule terminator
     newline
@@ -44,13 +54,13 @@ grammar Ruby
   end
   
   rule number
-    '-'? [1-9] [0-9]* <NumberNode>
+    '-'? [1-9] [0-9]*   <NumberNode>
   end
   
   rule string
-    '"' (!'"' .)* '"' <StringNode>
+    '"' [^"]* '"'   <StringNode>
     /
-    "'" (!"'" .)* "'" <StringNode>
+    "'" [^']* "'"   <StringNode>
   end
   
   rule true
@@ -58,7 +68,7 @@ grammar Ruby
   end
   
   rule false
-    'false' <FalseNode>
+    'false'   <FalseNode>
   end
   
   rule nil
@@ -68,20 +78,77 @@ grammar Ruby
   rule self
     'self'  <SelfNode>
   end
-  
+
   rule assignment
     identifier '=' expression   <AssignmentNode>
   end
   
+  rule class
+    opt_spc 'class' spc name:constant opt_spc parent:('<' opt_spc expression)? opt_spc terminator
+      opt_spc body:expressions opt_spc terminator
+    opt_spc 'end' opt_spc   <ClassNode> {
+      def name
+        super.text_value.to_sym
+      end
+      
+      def parent
+        super.expression unless super.empty?
+      end
+    }
+  end
+  
+  rule def
+    opt_spc 'def' spc name:identifier opt_spc params:('(' names:(opt_spc identifier others:(opt_spc ',' opt_spc identifier)*)? ')')? opt_spc terminator
+      opt_spc body:expressions opt_spc terminator
+    opt_spc 'end' opt_spc   <DefNode> {
+      def name
+        super.name
+      end
+      
+      def params
+        !super.empty? ? [super.names.identifier.name] + super.names.others.elements.map { |p| p.identifier.name } : []
+      end
+    }
+  end
+
   rule call
-    receiver:(identifier '.')? method:identifier params:param_list?  <CallNode>
+    opt_spc receiver:(instance:(identifier / constant) '.')? opt_spc method:(identifier / operator) params:param_list? opt_spc  <CallNode> {
+      def receiver
+        super.instance unless super.empty?
+      end
+    }
   end
   
   rule param_list
-    '(' optional_params:(expression others:(',' expression)*)? ')' <ParamListNode>
+    opt_spc '(' optional_params:(opt_spc expression others:(opt_spc ',' opt_spc expression)*)? opt_spc ')' opt_spc  <ParamListNode>
+  end
+  
+  rule constant
+    [A-Z] [a-zA-Z0-9_]*  <ConstantNode> {
+      def name
+        text_value.to_sym
+      end
+    }
+  end
+
+  rule keyword
+    'self' / 'true' / 'false' / 'nil' / 'class' / 'end'
   end
 
   rule identifier
-    [a-z] [a-zA-Z0-9_]*  <IdentifierNode>
+    !keyword [a-z] [a-zA-Z0-9_]*  <IdentifierNode> {
+      def name
+        text_value.to_sym
+      end
+    }
+  end
+  
+  rule operator
+    # '<=' / '>=' / '==' / '||' / '&&' / '+' / '-' / '*' / '/' / '!' / '<' / '>' {
+    [+\-*/!<>] {
+      def eval(context)
+        text_value.to_sym
+      end
+    }
   end
 end
