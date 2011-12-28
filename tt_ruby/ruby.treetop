@@ -4,7 +4,7 @@ grammar Ruby
   end
   
   rule expressions
-    expression others:(terminator expression)*  <ExpressionsNode>
+    expression others:(opt_spc terminator+ opt_spc expression)*   <ExpressionsNode>
   end
   
   rule expression
@@ -86,8 +86,8 @@ grammar Ruby
   end
   
   rule class
-    opt_spc 'class' spc name:constant opt_spc parent:('<' opt_spc expression)? opt_spc terminator
-      opt_spc body:expressions opt_spc terminator
+    opt_spc 'class' spc name:constant opt_spc parent:('<' opt_spc expression)? opt_spc terminator+
+      opt_spc body:expressions opt_spc terminator+
     opt_spc 'end' opt_spc   <ClassNode> {
       def name
         super.text_value.to_sym
@@ -100,8 +100,8 @@ grammar Ruby
   end
   
   rule def
-    opt_spc 'def' spc name:identifier opt_spc params:('(' names:(opt_spc identifier others:(opt_spc ',' opt_spc identifier)*)? ')')? opt_spc terminator
-      opt_spc body:expressions opt_spc terminator
+    opt_spc 'def' spc name:identifier opt_spc params:('(' names:(opt_spc identifier others:(opt_spc ',' opt_spc identifier)*)? ')')? opt_spc terminator+
+      opt_spc body:expressions opt_spc terminator+
     opt_spc 'end' opt_spc   <DefNode> {
       def name
         super.name
