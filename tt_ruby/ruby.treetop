@@ -8,7 +8,7 @@ grammar Ruby
   end
   
   rule expression
-    literal
+    operator_call
     /
     self
     /
@@ -21,6 +21,8 @@ grammar Ruby
     call
     /
     constant
+    /
+    literal
   end
   
   rule opt_spc
@@ -80,7 +82,7 @@ grammar Ruby
   end
 
   rule assignment
-    identifier '=' expression   <AssignmentNode>
+    opt_spc identifier opt_spc '=' opt_spc expression opt_spc   <AssignmentNode>
   end
   
   rule class
@@ -112,7 +114,7 @@ grammar Ruby
   end
 
   rule call
-    opt_spc receiver:(instance:(identifier / constant) '.')? opt_spc method:(identifier / operator) params:param_list? opt_spc  <CallNode> {
+    opt_spc receiver:(instance:(identifier / constant / literal) '.')? opt_spc method:(identifier / operator) params:param_list? opt_spc  <CallNode> {
       def receiver
         super.instance unless super.empty?
       end
@@ -146,9 +148,13 @@ grammar Ruby
   rule operator
     # '<=' / '>=' / '==' / '||' / '&&' / '+' / '-' / '*' / '/' / '!' / '<' / '>' {
     [+\-*/!<>] {
-      def eval(context)
+      def name
         text_value.to_sym
       end
     }
+  end
+  
+  rule operator_call
+    opt_spc left:(identifier / constant / literal) operations:(opt_spc operator opt_spc right:(identifier / constant / literal))+ opt_spc    <OperatorCallNode>
   end
 end

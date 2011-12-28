@@ -47,13 +47,13 @@ end
 
 class AssignmentNode < Treetop::Runtime::SyntaxNode
   def eval(context)
-    context.locals[identifier.eval(context)] = expression.eval(context)
+    context.locals[identifier.name] = expression.eval(context)
   end
 end
 
 class IdentifierNode < Treetop::Runtime::SyntaxNode
   def eval(context)
-    name
+    context.locals[name]
   end
 end
 
@@ -75,17 +75,15 @@ end
 
 class CallNode < Treetop::Runtime::SyntaxNode
   def eval(context)
-    evaluated_method = method.eval(context)
-    
-    if !receiver && params.empty? && context.locals.has_key?(evaluated_method)
+    if !receiver && params.empty? && context.locals.has_key?(method.name)
       # Local variable.
-      context.locals[evaluated_method]
+      context.locals[method.name]
     else
       # Method call.
-      object          = receiver ? (receiver.is_a?(ConstantNode) ? context[receiver.eval(context).name] : context.locals[receiver.eval(context)]) : context.current_self
+      object          = receiver ? receiver.eval(context) : context.current_self
       evaluated_parms = !params.empty? ? params.eval(context) : []
       
-      object.call evaluated_method, evaluated_parms
+      object.call method.name, evaluated_parms
     end
   end
 end
@@ -109,6 +107,14 @@ class DefNode < Treetop::Runtime::SyntaxNode
     context.current_class.runtime_methods[name] = RMethod.new(name, params, body)
     
     Runtime[:nil] 
+  end
+end
+
+class OperatorCallNode < Treetop::Runtime::SyntaxNode
+  def eval(context)
+    operations.elements.inject(left.eval(context)) do |memo, e|
+      memo.call(e.operator.name, [e.right.eval(context)])
+    end
   end
 end
 
