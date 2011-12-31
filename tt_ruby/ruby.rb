@@ -52,6 +52,9 @@ class AssignmentNode < Treetop::Runtime::SyntaxNode
 end
 
 class IdentifierNode < Treetop::Runtime::SyntaxNode
+  def eval(context)
+    context.locals[name]
+  end
 end
 
 class ConstantNode < Treetop::Runtime::SyntaxNode
@@ -77,7 +80,8 @@ class CallNode < Treetop::Runtime::SyntaxNode
       context.locals[method.name]
     else
       # Method call.
-      object          = receiver ? (IdentifierNode === receiver ? context.locals[receiver.name] : receiver.eval(context)) : context.current_self
+      # object          = receiver ? (IdentifierNode === receiver ? context.locals[receiver.name] : receiver.eval(context)) : context.current_self
+      object          = receiver ? receiver.eval(context) : context.current_self
       evaluated_parms = !params.empty? ? params.eval(context) : []
       
       object.call method.name, evaluated_parms

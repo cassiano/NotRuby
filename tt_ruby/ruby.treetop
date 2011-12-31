@@ -36,11 +36,15 @@ grammar Ruby
   rule terminator
     newline
     /
-    ';'
+    delimiter
   end
   
   rule newline
     "\n"
+  end
+  
+  rule delimiter
+    ';'
   end
   
   rule literal
