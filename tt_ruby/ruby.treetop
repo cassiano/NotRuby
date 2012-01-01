@@ -126,7 +126,7 @@ grammar Ruby
   end
   
   rule param_list
-    opt_spc '(' optional_params:(opt_spc expression others:(opt_spc ',' opt_spc expression)*)? opt_spc ')' opt_spc  <ParamListNode>
+    opt_spc '('? optional_params:(opt_spc expression others:(opt_spc ',' opt_spc expression)*)? opt_spc ')'? &{ |seq| ['()', ''].include?(seq[1].text_value + seq[4].text_value) } opt_spc  <ParamListNode>
   end
   
   rule constant
