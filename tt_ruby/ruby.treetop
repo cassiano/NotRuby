@@ -118,7 +118,7 @@ grammar Ruby
   end
 
   rule call
-    opt_spc receiver:(instance:(identifier / constant / literal) '.')? opt_spc method:(identifier / operator) params:param_list? opt_spc  <CallNode> {
+    opt_spc receiver:(instance:(identifier / constant / literal) '.')? opt_spc method:identifier params:param_list? opt_spc  <CallNode> {
       def receiver
         super.instance unless super.empty?
       end
@@ -135,7 +135,7 @@ grammar Ruby
         text_value.to_sym
       end
     }
-  end
+  end 
 
   rule keyword
     'self' / 'true' / 'false' / 'nil' / 'class' / 'end'
@@ -150,7 +150,6 @@ grammar Ruby
   end
   
   rule operator
-    # '<=' / '>=' / '==' / '||' / '&&' / '+' / '-' / '*' / '/' / '!' / '<' / '>' {
     [+\-*/!<>] {
       def name
         text_value.to_sym
@@ -159,6 +158,6 @@ grammar Ruby
   end
   
   rule operator_call
-    opt_spc left:(identifier / constant / literal) operations:(opt_spc operator opt_spc right:(identifier / constant / literal))+ opt_spc    <OperatorCallNode>
+    opt_spc left:(call / constant / literal) operations:(opt_spc operator opt_spc right:(call / constant / literal))+ opt_spc    <OperatorCallNode>
   end
 end
